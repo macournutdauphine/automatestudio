@@ -459,9 +459,8 @@ export function WorkflowVisual() {
     setActiveWorkflowIndex(0);
   }, [isInView]);
 
-  // Auto-cycle — tourne toujours (pas conditionné à isInView)
   useEffect(() => {
-    if (reducedMotion) return undefined;
+    if (reducedMotion || !isInView) return undefined;
 
     const interval = window.setInterval(() => {
       setActiveStep((currentStep) => {
@@ -477,7 +476,7 @@ export function WorkflowVisual() {
     }, 3600);
 
     return () => window.clearInterval(interval);
-  }, [reducedMotion, activeWorkflowIndex]);
+  }, [reducedMotion, isInView, activeWorkflowIndex]);
 
   const currentWorkflow = workflows[activeWorkflowIndex];
   const step = currentWorkflow.steps[0];
@@ -518,13 +517,7 @@ export function WorkflowVisual() {
             </div>
 
             <div className="mt-4">
-              <div className="sm:hidden">
-                <StepViewport step={step} active={true} reducedMotion={reducedMotion} />
-              </div>
-
-              <div className="hidden sm:block">
-                <StepViewport step={step} active={true} reducedMotion={reducedMotion} />
-              </div>
+              <StepViewport step={step} active={true} reducedMotion={reducedMotion} />
 
               <ConnectorLine active={activeStep >= 1} reducedMotion={reducedMotion} />
               <ConnectorStack active={activeStep >= 1} reducedMotion={reducedMotion} />

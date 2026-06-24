@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
 
 import { FadeUp } from "./animations";
@@ -12,11 +12,11 @@ import {
   ClockIcon,
   CheckCircleIcon,
   ArrowRightIcon,
+  XIcon,
 } from "./icons";
 
 const STEP_DURATION = 5000;
 
-// ─── Données ──────────────────────────────────────────────────────────────────
 
 type Step = {
   number: string;
@@ -151,7 +151,21 @@ const casTypes: CasType[] = [
   },
 ];
 
-// ─── WorkflowSteps (utilisé dans la modale Keprea) ────────────────────────────
+function ToolIcon({ name, slug }: { name: string; slug: string }) {
+  return (
+    <img
+      src={`https://cdn.simpleicons.org/${slug}`}
+      alt={name}
+      title={name}
+      className="h-5 w-5 opacity-55 grayscale transition-opacity duration-300 hover:opacity-80 hover:grayscale-0"
+      loading="lazy"
+      decoding="async"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).style.display = "none";
+      }}
+    />
+  );
+}
 
 function WorkflowSteps() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -165,7 +179,7 @@ function WorkflowSteps() {
   }, [inView]);
 
   useEffect(() => {
-    if (!reduceMotion || !started) return;
+    if (reduceMotion || !started) return;
     const t = setInterval(() => setActiveIndex((i) => (i + 1) % workflowSteps.length), STEP_DURATION);
     return () => clearInterval(t);
   }, [reduceMotion, started]);
@@ -272,18 +286,7 @@ function WorkflowSteps() {
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 {active.tools.map((tool) => (
-                  <img
-                    key={tool.slug}
-                    src={`https://cdn.simpleicons.org/${tool.slug}`}
-                    alt={tool.name}
-                    title={tool.name}
-                    className="h-5 w-5 opacity-55 grayscale transition-opacity duration-300 hover:opacity-80 hover:grayscale-0"
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
-                    }}
-                  />
+                  <ToolIcon key={tool.slug} name={tool.name} slug={tool.slug} />
                 ))}
               </div>
             </div>
@@ -310,8 +313,6 @@ function WorkflowSteps() {
   );
 }
 
-// ─── Contenu des modales ──────────────────────────────────────────────────────
-
 function KepreaModalContent() {
   return (
     <>
@@ -335,18 +336,7 @@ function KepreaModalContent() {
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:shrink-0 sm:justify-end">
           {stackTools.map((tool) => (
-            <img
-              key={tool.slug}
-              src={`https://cdn.simpleicons.org/${tool.slug}`}
-              alt={tool.name}
-              title={tool.name}
-              className="h-5 w-5 opacity-55 grayscale transition-opacity duration-300 hover:opacity-80 hover:grayscale-0"
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.display = "none";
-              }}
-            />
+            <ToolIcon key={tool.slug} name={tool.name} slug={tool.slug} />
           ))}
         </div>
       </div>
@@ -473,8 +463,6 @@ function CasTypeModalContent({ casType }: { casType: CasType }) {
   );
 }
 
-// ─── Modale ───────────────────────────────────────────────────────────────────
-
 type ModalSelection = "keprea" | number;
 
 function CaseDetailModal({ type, onClose }: { type: ModalSelection; onClose: () => void }) {
@@ -535,17 +523,7 @@ function CaseDetailModal({ type, onClose }: { type: ModalSelection; onClose: () 
                 autoFocus
                 className="absolute right-4 top-4 z-10 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-black/8 bg-white/80 text-[#66615a] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white hover:text-[#111111] focus:outline-none focus:ring-2 focus:ring-[#9a5a2c]/30"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                >
-                  <path d="M18 6 6 18M6 6l12 12" />
-                </svg>
+                <XIcon className="h-4 w-4" />
               </button>
 
               <div className="p-6 md:p-10">
@@ -558,8 +536,6 @@ function CaseDetailModal({ type, onClose }: { type: ModalSelection; onClose: () 
     </motion.div>
   );
 }
-
-// ─── Bouton de détail ─────────────────────────────────────────────────────────
 
 function DetailButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
@@ -575,8 +551,6 @@ function DetailButton({ onClick, label }: { onClick: () => void; label: string }
     </button>
   );
 }
-
-// ─── Carte compacte Keprea ────────────────────────────────────────────────────
 
 function KepreaCompactCard({ onDetail }: { onDetail: () => void }) {
   return (
@@ -613,8 +587,6 @@ function KepreaCompactCard({ onDetail }: { onDetail: () => void }) {
     </div>
   );
 }
-
-// ─── Carte compacte scénario ──────────────────────────────────────────────────
 
 function CasTypeCompactCard({ casType, onDetail }: { casType: CasType; onDetail: () => void }) {
   return (
@@ -654,10 +626,9 @@ function CasTypeCompactCard({ casType, onDetail }: { casType: CasType; onDetail:
   );
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
-
 export function PrototypesSection() {
   const [selectedModal, setSelectedModal] = useState<ModalSelection | null>(null);
+  const handleClose = useCallback(() => setSelectedModal(null), []);
 
   return (
     <section id="realisations" className="scroll-mt-24 py-12 md:py-16">
@@ -712,7 +683,7 @@ export function PrototypesSection() {
           <CaseDetailModal
             key={String(selectedModal)}
             type={selectedModal}
-            onClose={() => setSelectedModal(null)}
+            onClose={handleClose}
           />
         )}
       </AnimatePresence>

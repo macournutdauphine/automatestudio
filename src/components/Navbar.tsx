@@ -37,10 +37,6 @@ export function Navbar() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, []);
-
   const closeMenu = () => setMenuOpen(false);
 
   return (

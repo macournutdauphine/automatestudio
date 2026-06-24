@@ -104,13 +104,6 @@ export function StackProofSection() {
                 </span>
               </div>
 
-              {/*
-                Bento grid — 4 rows × 4 cols (16 cells total):
-                Row 1: Slack(2) + Airtable(1) + Notion(1)
-                Row 2: Gmail(1) + GDrive(1) + HubSpot(1) + Zapier(1)
-                Row 3: n8n(1) + OpenAI(2) + Asana(1)
-                Row 4: Trello(2) + Typeform(2)
-              */}
               <div className="mt-5 grid flex-1 auto-rows-[88px] grid-cols-2 gap-2.5 sm:grid-cols-4">
                 {logos.map((logo) => (
                   <LogoCard key={logo.name} {...logo} />

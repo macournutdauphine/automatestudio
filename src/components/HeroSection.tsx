@@ -13,8 +13,6 @@ export function HeroSection() {
         <Navbar />
 
         <div className="grid items-center gap-8 py-6 lg:grid-cols-[1fr_0.78fr] lg:gap-16 lg:py-10">
-
-          {/* ── Colonne gauche : texte ── */}
           <div className="relative z-10 max-w-3xl lg:self-center">
             <FadeUp>
               <Pill className="border-black/10 bg-white/[0.78] text-[#111111]">
@@ -61,22 +59,18 @@ export function HeroSection() {
             </FadeUp>
           </div>
 
-          {/* ── Colonne droite : photo ── */}
           <div className="relative lg:self-center">
-            {/* Lueur chaude derrière le cadre */}
             <div className="pointer-events-none absolute -inset-8 rounded-[3rem] bg-[radial-gradient(circle_at_44%_38%,rgba(154,90,44,0.11),transparent_60%)] blur-3xl" />
 
             <FadeUp delay={0.18}>
               <div className="relative">
 
-                {/* Double-bezel outer shell */}
                 <div className="panel-shell relative">
                   <div className="panel-core p-3">
                     <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.15rem]">
                       <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" />
                     </div>
 
-                    {/* Carte d'identité sous la photo */}
                     <div className="mt-3 flex items-center justify-between gap-3 rounded-[0.9rem] border border-black/[0.06] bg-white/60 px-4 py-3">
                       <div>
                         <p className="font-heading text-[1rem] font-semibold tracking-[-0.03em] text-[#111111]">

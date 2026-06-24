@@ -7,7 +7,6 @@ import {
   FileTextIcon,
   FunnelIcon,
   SparklesIcon,
-  WrenchIcon,
 } from "./icons";
 
 const automations = [
