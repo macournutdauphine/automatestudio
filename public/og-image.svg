@@ -1,0 +1,23 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F5F1EA"/>
+  <rect x="60" y="60" width="1080" height="510" rx="36" fill="#FBFAF7" stroke="#111111" stroke-opacity="0.08"/>
+  <circle cx="900" cy="170" r="120" fill="#9A5A2C" fill-opacity="0.12"/>
+  <circle cx="260" cy="430" r="150" fill="#111111" fill-opacity="0.04"/>
+  <path d="M140 175H380" stroke="#111111" stroke-opacity="0.12" stroke-width="2" stroke-linecap="round"/>
+  <path d="M140 201H312" stroke="#111111" stroke-opacity="0.12" stroke-width="2" stroke-linecap="round"/>
+  <path d="M140 227H286" stroke="#111111" stroke-opacity="0.12" stroke-width="2" stroke-linecap="round"/>
+  <rect x="140" y="286" width="184" height="184" rx="28" fill="#111111"/>
+  <path d="M176 390C219 323 250 298 300 284" stroke="#F5F1EA" stroke-width="10" stroke-linecap="round"/>
+  <path d="M185 434L297 322" stroke="#9A5A2C" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="188" cy="322" r="14" fill="#9A5A2C"/>
+  <circle cx="298" cy="434" r="14" fill="#F5F1EA"/>
+  <text x="380" y="285" fill="#111111" font-family="Manrope, Arial, sans-serif" font-size="56" font-weight="700" letter-spacing="-1.5">
+    Automate Studio
+  </text>
+  <text x="380" y="346" fill="#111111" fill-opacity="0.72" font-family="Manrope, Arial, sans-serif" font-size="28" font-weight="500">
+    Automatisation IA utile pour entrepreneurs, PME, agences et indépendants
+  </text>
+  <text x="380" y="402" fill="#111111" fill-opacity="0.56" font-family="IBM Plex Mono, monospace" font-size="18" font-weight="500" letter-spacing="2.5">
+    workflows • CRM • reporting • relances • synchronisation
+  </text>
+</svg>

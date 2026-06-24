@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f5f1ea;
+  --bg-alt: #ede7dc;
+  --text: #111111;
+  --muted: #66615a;
+  --dark: #111111;
+  --accent: #9a5a2c;
+  --accent-soft: rgba(154, 90, 44, 0.12);
+  --success: #44624a;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-strong: #fbfaf7;
+  --mutedcard: #ede7dc;
+  --darkcard: #171412;
+  --border: rgba(17, 17, 17, 0.09);
+  --border-strong: rgba(17, 17, 17, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image:
+    radial-gradient(circle at 11% 8%, rgba(154, 90, 44, 0.08), transparent 26%),
+    radial-gradient(circle at 82% 12%, rgba(17, 17, 17, 0.03), transparent 24%),
+    radial-gradient(circle at 70% 78%, rgba(154, 90, 44, 0.04), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+}
+
+::selection {
+  background: rgba(154, 90, 44, 0.18);
+}
+
+.font-heading {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-optical-sizing: auto;
+  font-variant-ligatures: discretionary-ligatures;
+}
+
+.font-mono {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: soft-light;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(17, 17, 17, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.055) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.radial-glow {
+  background: radial-gradient(circle at 35% 35%, rgba(154, 90, 44, 0.14), transparent 58%);
+  filter: blur(18px);
+}
+
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9a5a2c] focus-visible:ring-offset-2 focus-visible:ring-offset-[#f5f1ea];
+}
+
+.card-border {
+  border: 1px solid var(--border);
+}
+
+.dark-card-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+@supports not (text-wrap: balance) {
+  .text-balance {
+    word-break: normal;
+  }
+}
+
+section {
+  position: relative;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+
+.surface-card {
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.64)),
+    rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 28px 60px -48px rgba(17, 17, 17, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(120%);
+}
+
+.surface-strong {
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  background:
+    linear-gradient(180deg, rgba(251, 250, 247, 0.94), rgba(245, 241, 234, 0.92)),
+    var(--card-strong);
+  box-shadow:
+    0 28px 60px -46px rgba(17, 17, 17, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+}
+
+.kicker {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.grid-deco {
+  background-image:
+    linear-gradient(rgba(17, 17, 17, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.48'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.08;
+  mix-blend-mode: soft-light;
+}
+
+.panel-shell {
+  border-radius: 1.9rem;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.56);
+  padding: 0.6rem;
+  box-shadow: 0 30px 80px -60px rgba(17, 17, 17, 0.45);
+}
+
+.panel-core {
+  border-radius: 1.45rem;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.64)),
+    rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    inset 0 -1px 0 rgba(17, 17, 17, 0.03);
+}
+
+.soft-underline {
+  background: linear-gradient(180deg, transparent 62%, rgba(154, 90, 44, 0.16) 62%);
+}
