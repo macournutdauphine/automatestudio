@@ -26,7 +26,7 @@ type Step = {
   tools: { name: string; slug: string }[];
 };
 
-const workflowSteps: Step[] = [
+const kepreaWorkflowSteps: Step[] = [
   {
     number: "01",
     icon: ClipboardListIcon,
@@ -80,6 +80,49 @@ const workflowSteps: Step[] = [
   },
 ];
 
+const pipelineWorkflowSteps: Step[] = [
+  {
+    number: "01",
+    icon: ClipboardListIcon,
+    title: "Import & dédup",
+    description:
+      "Le CSV Sales Navigator est importé et normalisé. Chaque ligne est vérifiée contre HubSpot pour détecter les contacts déjà en CRM et les comptes bloquants — sans retravailler ce qui existe déjà.",
+    tools: [
+      { name: "HubSpot", slug: "hubspot" },
+    ],
+  },
+  {
+    number: "02",
+    icon: SparklesIcon,
+    title: "Scoring ICP 100 pts",
+    description:
+      "Chaque lead est scoré sur 100 points : adéquation persona, ICP entreprise, timing détecté, réseau, complétude du profil. Résultat : une priorisation immédiate Hot / Warm / Cold.",
+    tools: [],
+  },
+  {
+    number: "03",
+    icon: MailIcon,
+    title: "Cascade d'enrichissement",
+    description:
+      "Sélection des leads à enrichir, puis cascade multi-providers avec logique de fallback : Apollo en premier, Surfe en relais, Lemlist en dernier recours. Les résultats arrivent via webhooks asynchrones sans bloquer l'interface.",
+    tools: [
+      { name: "Apollo", slug: "apollographql" },
+      { name: "Surfe", slug: "surfe" },
+      { name: "Lemlist", slug: "lemlist" },
+    ],
+  },
+  {
+    number: "04",
+    icon: CheckCircleIcon,
+    title: "Push HubSpot",
+    description:
+      "Un écran de preview liste les contacts et companies à créer ou mettre à jour avant envoi. Une fois validé, le push API crée tout proprement dans HubSpot. Fallback disponible en export CSV.",
+    tools: [
+      { name: "HubSpot", slug: "hubspot" },
+    ],
+  },
+];
+
 const keyMetrics = [
   { value: "~134 h", label: "économisées par an", note: "estimation" },
   { value: "~4 700 €", label: "de valeur générée / an", note: "au coût chargé 35 €/h" },
@@ -102,13 +145,37 @@ const stackTools = [
 
 type CasType = {
   title: string;
+  badge?: string;
   context: { label: string; value: string }[];
   problem: string;
   steps: { number: string; title: string; tools: string[] }[];
+  workflowSteps?: Step[];
   results: string[];
 };
 
 const casTypes: CasType[] = [
+  {
+    title: "Pipeline Sales Nav vers HubSpot",
+    badge: "Outil interne · Cas réel",
+    context: [
+      { label: "Outil", value: "metreecs-lead-pipeline" },
+      { label: "Stack", value: "HubSpot, Apollo, Surfe, Lemlist" },
+    ],
+    problem:
+      "Import LinkedIn Sales Navigator, déduplication, scoring et enrichissement se faisaient en silo, sans traçabilité. Des heures de traitement manuel pour aboutir à des listes encore partielles et non priorisées.",
+    workflowSteps: pipelineWorkflowSteps,
+    steps: [
+      { number: "01", title: "Import CSV Sales Nav, normalisation et déduplication automatique contre HubSpot", tools: ["HubSpot"] },
+      { number: "02", title: "Scoring ICP 100 pts sur persona, secteur, timing et réseau — priorisation Hot/Warm/Cold", tools: [] },
+      { number: "03", title: "Enrichissement email/mobile en cascade avec logique fallback : Apollo, Surfe, Lemlist", tools: ["Apollo", "Surfe", "Lemlist"] },
+      { number: "04", title: "Preview, validation puis push direct API HubSpot : contacts et companies créés ou mis à jour", tools: ["HubSpot"] },
+    ],
+    results: [
+      "Un seul flux traçable du CSV brut au contact CRM qualifié",
+      "Priorisation automatique Hot/Warm/Cold dès l'import",
+      "Couverture contact maximisée, sans appels API redondants",
+    ],
+  },
   {
     title: "Relances commerciales automatisées",
     context: [
@@ -129,26 +196,6 @@ const casTypes: CasType[] = [
       "Pipeline à jour sans saisie manuelle",
     ],
   },
-  {
-    title: "Onboarding client en moins de 5 minutes",
-    context: [
-      { label: "Profil", value: "Agence ou cabinet, 3-5 clients/mois" },
-      { label: "Stack", value: "Notion, Gmail, Google Drive" },
-    ],
-    problem:
-      "Chaque onboarding est refait à la main : création des accès, envoi des documents, mise en place des espaces. L'équipe y passe 30 à 45 min par nouveau client.",
-    steps: [
-      { number: "01", title: "Contrat signé : espace Notion créé depuis un template", tools: ["Notion"] },
-      { number: "02", title: "Dossier Google Drive partagé avec les bons accès", tools: ["Google Drive"] },
-      { number: "03", title: "Email de bienvenue avec tous les liens envoyé automatiquement", tools: ["Gmail"] },
-      { number: "04", title: "Rappel J+7 si certaines étapes non complétées", tools: ["Gmail", "Slack"] },
-    ],
-    results: [
-      "Onboarding lancé en < 5 min (vs 30-45 min)",
-      "Aucune étape oubliée",
-      "Client opérationnel dès J+1",
-    ],
-  },
 ];
 
 function ToolIcon({ name, slug }: { name: string; slug: string }) {
@@ -167,8 +214,9 @@ function ToolIcon({ name, slug }: { name: string; slug: string }) {
   );
 }
 
-function WorkflowSteps() {
+function WorkflowSteps({ steps }: { steps: Step[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [generation, setGeneration] = useState(0);
   const [started, setStarted] = useState(false);
   const reduceMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -180,30 +228,33 @@ function WorkflowSteps() {
 
   useEffect(() => {
     if (reduceMotion || !started) return;
-    const t = setInterval(() => setActiveIndex((i) => (i + 1) % workflowSteps.length), STEP_DURATION);
+    const t = setInterval(() => setActiveIndex((i) => (i + 1) % steps.length), STEP_DURATION);
     return () => clearInterval(t);
-  }, [reduceMotion, started]);
+  }, [reduceMotion, started, steps.length]);
 
   useEffect(() => {
-    if (reduceMotion || !started || activeIndex !== workflowSteps.length - 1) return;
-    const t = setTimeout(() => setActiveIndex(0), STEP_DURATION);
+    if (reduceMotion || !started || activeIndex !== steps.length - 1) return;
+    const t = setTimeout(() => {
+      setGeneration((g) => g + 1);
+      setActiveIndex(0);
+    }, STEP_DURATION);
     return () => clearTimeout(t);
-  }, [reduceMotion, activeIndex, started]);
+  }, [reduceMotion, activeIndex, started, steps.length]);
 
-  const active = workflowSteps[activeIndex];
+  const active = steps[activeIndex];
   const ActiveIcon = active.icon;
 
   return (
     <div ref={containerRef}>
       <div className="flex items-center">
-        {workflowSteps.map((step, i) => {
+        {steps.map((step, i) => {
           const isActive = i === activeIndex;
           const isDone = i < activeIndex;
           const Icon = step.icon;
           return (
             <div
               key={step.number}
-              className={i < workflowSteps.length - 1 ? "flex flex-1 items-center" : "flex items-center"}
+              className={i < steps.length - 1 ? "flex flex-1 items-center" : "flex items-center"}
             >
               <button
                 type="button"
@@ -222,9 +273,10 @@ function WorkflowSteps() {
                 <Icon className="h-3.5 w-3.5" />
               </button>
 
-              {i < workflowSteps.length - 1 && (
+              {i < steps.length - 1 && (
                 <div className="relative mx-1.5 h-px flex-1 overflow-hidden bg-black/6">
                   <motion.span
+                    key={`${generation}-${i}`}
                     className="absolute inset-y-0 left-0 bg-[#9a5a2c]/35"
                     initial={{ width: "0%" }}
                     animate={{ width: isDone ? "100%" : isActive && started ? "100%" : "0%" }}
@@ -237,7 +289,7 @@ function WorkflowSteps() {
                     }
                     onAnimationComplete={() => {
                       if (!reduceMotion && started && isActive) {
-                        setActiveIndex((prev) => (i === prev ? (prev + 1) % workflowSteps.length : prev));
+                        setActiveIndex((prev) => (i === prev ? (prev + 1) % steps.length : prev));
                       }
                     }}
                   />
@@ -248,8 +300,8 @@ function WorkflowSteps() {
         })}
       </div>
 
-      <div className="mt-2.5 hidden grid-cols-6 sm:grid">
-        {workflowSteps.map((step, i) => (
+      <div className={`mt-2.5 hidden sm:grid`} style={{ gridTemplateColumns: `repeat(${steps.length}, 1fr)` }}>
+        {steps.map((step, i) => (
           <p
             key={step.number}
             className={[
@@ -296,7 +348,7 @@ function WorkflowSteps() {
       </div>
 
       <div className="mt-4 flex items-center justify-center gap-1.5">
-        {workflowSteps.map((_, i) => (
+        {steps.map((_: Step, i: number) => (
           <button
             key={i}
             type="button"
@@ -350,7 +402,7 @@ function KepreaModalContent() {
 
       <div className="mt-6">
         <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.24em] text-[#66615a]">workflow mis en place</p>
-        <WorkflowSteps />
+        <WorkflowSteps steps={kepreaWorkflowSteps} />
       </div>
 
       <div className="mt-6 rounded-[1.35rem] border border-[#9a5a2c]/15 bg-[#9a5a2c]/[0.06] p-5 md:p-6">
@@ -404,7 +456,7 @@ function CasTypeModalContent({ casType }: { casType: CasType }) {
   return (
     <>
       <span className="inline-block rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-        Scénario illustratif
+        {casType.badge ?? "Scénario illustratif"}
       </span>
       <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.04em] text-[#111111] sm:text-3xl">
         {casType.title}
@@ -424,28 +476,32 @@ function CasTypeModalContent({ casType }: { casType: CasType }) {
 
       <div className="mt-5">
         <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.24em] text-[#66615a]">flux automatisé</p>
-        <div className="flex flex-col gap-3">
-          {casType.steps.map((step) => (
-            <div key={step.number} className="flex items-start gap-3">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-black/[0.05] font-mono text-[9px] text-[#66615a]">
-                {step.number}
-              </span>
-              <div className="flex-1">
-                <p className="text-sm text-[#111111]">{step.title}</p>
-                <div className="mt-1.5 flex flex-wrap gap-1">
-                  {step.tools.map((tool) => (
-                    <span
-                      key={tool}
-                      className="rounded-full border border-black/8 px-2 py-0.5 text-[10px] text-[#9a9389]"
-                    >
-                      {tool}
-                    </span>
-                  ))}
+        {casType.workflowSteps ? (
+          <WorkflowSteps steps={casType.workflowSteps} />
+        ) : (
+          <div className="flex flex-col gap-3">
+            {casType.steps.map((step) => (
+              <div key={step.number} className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-black/[0.05] font-mono text-[9px] text-[#66615a]">
+                  {step.number}
+                </span>
+                <div className="flex-1">
+                  <p className="text-sm text-[#111111]">{step.title}</p>
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    {step.tools.map((tool) => (
+                      <span
+                        key={tool}
+                        className="rounded-full border border-black/8 px-2 py-0.5 text-[10px] text-[#9a9389]"
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="mt-5 rounded-xl border border-[#9a5a2c]/12 bg-[#9a5a2c]/[0.04] p-4">
@@ -594,7 +650,7 @@ function CasTypeCompactCard({ casType, onDetail }: { casType: CasType; onDetail:
       <div className="panel-core flex h-full flex-col rounded-[1.5rem] p-5 md:p-6">
 
         <span className="self-start rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-          Scénario illustratif
+          {casType.badge ?? "Scénario illustratif"}
         </span>
 
         <h3 className="mt-4 font-heading text-xl font-semibold tracking-[-0.04em] text-[#111111] md:text-2xl">
