@@ -42,7 +42,7 @@ export function HeroSection() {
               <div className="mt-8 border-t border-black/[0.08] pt-6">
                 <p className="kicker">Qui suis-je ?</p>
                 <p className="mt-3 text-[0.9rem] leading-relaxed text-[#5F5F5F]">
-                  Étudiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je déploie des workflows opérationnels, sans développeur ni budget technique, pour vous proposer la qualité de mes services à des prix compétitifs.
+                  Étudiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je déploie des workflows opérationnels, sans développeur ni budget technique afin de vous proposer la qualité de mes services à des prix compétitifs.
                 </p>
                 <div className="mt-4 flex items-center gap-2">
                   <span className="font-heading text-[0.92rem] font-semibold tracking-[-0.03em] text-[#111111]">Mathieu Cournut</span>
