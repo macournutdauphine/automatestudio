@@ -61,7 +61,7 @@ export function HeroSection() {
 
                 <div className="panel-shell relative">
                   <div className="panel-core p-3">
-                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.15rem]">
+                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.15rem]" style={{ isolation: 'isolate' }}>
                       <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" />
                     </div>
 
