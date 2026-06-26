@@ -13,12 +13,12 @@ const logos = [
   { name: "ChatGPT",          slug: "openai",          featured: true,  localSrc: "/openai.svg" },
   { name: "Teams",           slug: "microsoftteams",                   localSrc: "/teams.svg" },
   { name: "Trello",          slug: "trello",          featured: true },
-  { name: "Typeform",        slug: "typeform",        featured: true,  bigIcon: true },
+  { name: "Typeform",        slug: "typeform",        featured: true,  mediumIcon: true },
 ];
 
 type Logo = typeof logos[0];
 
-function LogoCard({ name, slug, featured, localSrc, bigIcon }: Logo) {
+function LogoCard({ name, slug, featured, localSrc, bigIcon, mediumIcon }: Logo) {
   const [imgError, setImgError] = useState(false);
   // No color override → Simple Icons serves each brand's official color automatically
   const src = localSrc ?? `https://cdn.simpleicons.org/${slug}`;
@@ -50,13 +50,13 @@ function LogoCard({ name, slug, featured, localSrc, bigIcon }: Logo) {
               alt={name}
               className={[
                 "relative w-auto transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] opacity-85 group-hover:opacity-100 group-hover:scale-[1.07]",
-                bigIcon ? "h-[88px]" : "h-[22px]",
+                bigIcon ? "h-[88px]" : mediumIcon ? "h-[50px]" : "h-[22px]",
               ].join(" ")}
               onError={() => setImgError(true)}
               loading="lazy"
               decoding="async"
             />
-            <span className="relative text-[9px] font-medium tracking-[0.12em] text-[#9A8F84] uppercase leading-none whitespace-nowrap">
+            <span className={["relative text-[9px] font-medium tracking-[0.12em] text-[#9A8F84] uppercase leading-none whitespace-nowrap", mediumIcon ? "mt-[-4px]" : ""].join(" ")}>
               {name}
             </span>
           </>
