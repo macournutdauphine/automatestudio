@@ -23,7 +23,7 @@ type Step = {
   icon: (props: { className?: string }) => JSX.Element;
   title: string;
   description: string;
-  tools: { name: string; slug: string }[];
+  tools: { name: string; slug: string; src?: string }[];
 };
 
 const kepreaWorkflowSteps: Step[] = [
@@ -33,7 +33,7 @@ const kepreaWorkflowSteps: Step[] = [
     title: "Formulaire mobile",
     description:
       "Saisie d'incident sur mobile, création instantanée dans Airtable avec numéro de référence (SEC-XXXX).",
-    tools: [{ name: "Airtable", slug: "airtable" }],
+    tools: [{ name: "Airtable", slug: "airtable", src: "/airtable.jpg" }],
   },
   {
     number: "02",
@@ -53,7 +53,7 @@ const kepreaWorkflowSteps: Step[] = [
       "Un plan d'action est automatiquement généré et pré-rempli pour chaque incident déclaré, avec les actions correctives à mener déjà listées et tracées.",
     tools: [
       { name: "Google Docs", slug: "googledocs" },
-      { name: "Airtable", slug: "airtable" },
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
     ],
   },
   {
@@ -68,7 +68,7 @@ const kepreaWorkflowSteps: Step[] = [
     icon: ClockIcon,
     title: "Passage en retard",
     description: "Chaque matin à 8h, les actions correctives dont l'échéance est dépassée basculent automatiquement.",
-    tools: [{ name: "Airtable", slug: "airtable" }],
+    tools: [{ name: "Airtable", slug: "airtable", src: "/airtable.jpg" }],
   },
   {
     number: "06",
@@ -76,7 +76,7 @@ const kepreaWorkflowSteps: Step[] = [
     title: "Circuit suggestions",
     description:
       "Formulaire parallèle pour les idées d'amélioration, avec routage automatique vers le bon responsable selon le process.",
-    tools: [{ name: "Airtable", slug: "airtable" }],
+    tools: [{ name: "Airtable", slug: "airtable", src: "/airtable.jpg" }],
   },
 ];
 
@@ -84,9 +84,9 @@ const pipelineWorkflowSteps: Step[] = [
   {
     number: "01",
     icon: ClipboardListIcon,
-    title: "Import & dédup",
+    title: "Import et nettoyage",
     description:
-      "Le CSV Sales Navigator est importé et normalisé. Chaque ligne est vérifiée contre HubSpot pour détecter les contacts déjà en CRM et les comptes bloquants — sans retravailler ce qui existe déjà.",
+      "Le fichier exporté depuis LinkedIn Sales Navigator est importé et normalisé automatiquement. Chaque contact est vérifié dans HubSpot pour éviter les doublons : seuls les nouveaux prospects passent à l'étape suivante.",
     tools: [
       { name: "HubSpot", slug: "hubspot" },
     ],
@@ -94,31 +94,143 @@ const pipelineWorkflowSteps: Step[] = [
   {
     number: "02",
     icon: SparklesIcon,
-    title: "Scoring ICP 100 pts",
+    title: "Priorisation automatique",
     description:
-      "Chaque lead est scoré sur 100 points : adéquation persona, ICP entreprise, timing détecté, réseau, complétude du profil. Résultat : une priorisation immédiate Hot / Warm / Cold.",
+      "Chaque prospect reçoit un score de pertinence basé sur sa correspondance avec votre client idéal : secteur, taille d'entreprise, poste, réseau en commun. La liste est immédiatement triée en Chaud / Tiède / Froid, les meilleurs leads remontent en tête.",
     tools: [],
   },
   {
     number: "03",
     icon: MailIcon,
-    title: "Cascade d'enrichissement",
+    title: "Recherche des coordonnées",
     description:
-      "Sélection des leads à enrichir, puis cascade multi-providers avec logique de fallback : Apollo en premier, Surfe en relais, Lemlist en dernier recours. Les résultats arrivent via webhooks asynchrones sans bloquer l'interface.",
+      "Les emails et numéros de téléphone sont recherchés automatiquement via plusieurs sources successives : Apollo en premier, Surfe en relais, Lemlist en dernier recours. Si l'une ne trouve pas, la suivante prend le relais, sans intervention manuelle.",
     tools: [
-      { name: "Apollo", slug: "apollographql" },
-      { name: "Surfe", slug: "surfe" },
-      { name: "Lemlist", slug: "lemlist" },
+      { name: "Apollo", slug: "apollographql", src: "https://logosandtypes.com/wp-content/uploads/2022/09/apollo-io.svg" },
+      { name: "Surfe", slug: "surfe", src: "https://cdn.brandfetch.io/surfe.com/w/256/h/256/logo" },
+      { name: "Lemlist", slug: "lemlist", src: "https://cdn.brandfetch.io/lemlist.com/fallback/lettermark/theme/dark/h/256/w/256/icon?c=1bfwsmEH20zzEfSNTed" },
     ],
   },
   {
     number: "04",
     icon: CheckCircleIcon,
-    title: "Push HubSpot",
+    title: "Mise à jour du CRM",
     description:
-      "Un écran de preview liste les contacts et companies à créer ou mettre à jour avant envoi. Une fois validé, le push API crée tout proprement dans HubSpot. Fallback disponible en export CSV.",
+      "Un écran de validation liste les contacts et entreprises à créer ou mettre à jour avant l'envoi. En un clic, tout est créé proprement dans HubSpot. Un export de secours reste disponible si besoin.",
     tools: [
       { name: "HubSpot", slug: "hubspot" },
+    ],
+  },
+];
+
+const facturesWorkflowSteps: Step[] = [
+  {
+    number: "01",
+    icon: SparklesIcon,
+    title: "Détection et extraction",
+    description:
+      "Dès qu'une facture arrive par email, elle est automatiquement reconnue. L'IA extrait le fournisseur, le montant HT/TTC, la date et l'échéance de paiement, sans aucune saisie manuelle.",
+    tools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "02",
+    icon: FileTextIcon,
+    title: "Classement dans Drive",
+    description:
+      "Le PDF est renommé selon la convention interne (AAAA-MM_Fournisseur_Montant) et déposé dans le bon sous-dossier Drive. Un lien direct et toutes les métadonnées sont enregistrés dans Airtable.",
+    tools: [
+      { name: "Google Drive", slug: "googledrive", src: "/googledrive.svg" },
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+    ],
+  },
+  {
+    number: "03",
+    icon: CheckCircleIcon,
+    title: "Vérification automatique",
+    description:
+      "Si les données extraites sont incomplètes ou incohérentes (montant manquant, IBAN absent), une alerte est envoyée au comptable avec le document joint. Sinon, la facture passe en validation automatique.",
+    tools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "04",
+    icon: ClockIcon,
+    title: "Alerte avant échéance",
+    description:
+      "5 jours avant la date de paiement, un rappel est envoyé au responsable financier avec le montant, le fournisseur et les coordonnées bancaires, sans qu'il ait besoin d'aller chercher l'information.",
+    tools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "05",
+    icon: MailIcon,
+    title: "Rapport mensuel automatique",
+    description:
+      "Le 1er de chaque mois, un récapitulatif est envoyé automatiquement : total des factures traitées, répartition par fournisseur, factures en attente de paiement et montant engagé.",
+    tools: [
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+];
+
+const locatifWorkflowSteps: Step[] = [
+  {
+    number: "01",
+    icon: MailIcon,
+    title: "Quittances envoyées le 1er du mois",
+    description:
+      "Le 1er de chaque mois, les quittances de loyer sont générées et envoyées automatiquement à chacun des locataires. Chaque email est personnalisé : nom, montant, période et coordonnées du gestionnaire.",
+    tools: [
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "02",
+    icon: ClockIcon,
+    title: "Détection des impayés à J+5",
+    description:
+      "Cinq jours après la date d'appel, les loyers non encaissés sont détectés automatiquement. Un email de rappel courtois est envoyé à chaque locataire concerné, sans intervention du gestionnaire.",
+    tools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "03",
+    icon: BellIcon,
+    title: "Relance renforcée à J+10",
+    description:
+      "Sans règlement à J+10, un second rappel part automatiquement. Le gestionnaire reçoit en parallèle une alerte avec la liste des impayés, les montants et les coordonnées des locataires à contacter.",
+    tools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+      { name: "Slack", slug: "slack", src: "/slack.svg" },
+    ],
+  },
+  {
+    number: "04",
+    icon: FileTextIcon,
+    title: "Proposition de renouvellement",
+    description:
+      "3 mois avant la fin de chaque bail, un email de proposition de renouvellement est envoyé automatiquement au locataire, avec les nouvelles conditions et un lien pour confirmer son intention.",
+    tools: [
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+    ],
+  },
+  {
+    number: "05",
+    icon: CheckCircleIcon,
+    title: "Rapport mensuel propriétaire",
+    description:
+      "En fin de mois, chaque propriétaire reçoit automatiquement un rapport : loyers encaissés, impayés en cours, charges refacturables et prochaines échéances à surveiller.",
+    tools: [
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
     ],
   },
 ];
@@ -127,20 +239,21 @@ const keyMetrics = [
   { value: "~134 h", label: "économisées par an", note: "estimation" },
   { value: "~4 700 €", label: "de valeur générée / an", note: "au coût chargé 35 €/h" },
   { value: "< 1 min", label: "délai d'alerte incident", note: "vs 2 à 4h avant" },
-  { value: "−99 %", label: "sur le délai d'alerte", note: "vs process manuel" },
+  { value: "120", label: "déclarations tracées / an", note: "0 perte de donnée" },
 ];
 
 const timeBreakdown = [
   { task: "Saisie + transmission d'un incident", calcul: "120 incidents × 10 min", gain: "~20 h/an" },
-  { task: "Rédaction du plan d'action", calcul: "120 occurrences × 57 min", gain: "~114 h/an" },
+  { task: "Rédaction du plan d'action", calcul: "120 occurrences × 1h*", gain: "~120 h/an" },
 ];
 
 const stackTools = [
-  { name: "Airtable", slug: "airtable" },
+  { name: "Airtable", slug: "airtable", localSrc: "/airtable.jpg" },
   { name: "Google Apps Script", slug: "googleappsscript" },
-  { name: "Gmail", slug: "gmail" },
+  { name: "Gmail", slug: "gmail", localSrc: "/gmail.svg" },
   { name: "Slack", slug: "slack" },
   { name: "Google Docs", slug: "googledocs" },
+  { name: "Google Drive", slug: "googledrive", localSrc: "/googledrive.svg" },
 ];
 
 type CasType = {
@@ -151,57 +264,97 @@ type CasType = {
   steps: { number: string; title: string; tools: string[] }[];
   workflowSteps?: Step[];
   results: string[];
+  stackTools?: { name: string; slug: string; src?: string }[];
 };
 
 const casTypes: CasType[] = [
   {
-    title: "Pipeline Sales Nav vers HubSpot",
-    badge: "Outil interne · Cas réel",
+    title: "De LinkedIn à votre CRM en quelques minutes",
     context: [
-      { label: "Outil", value: "metreecs-lead-pipeline" },
-      { label: "Stack", value: "HubSpot, Apollo, Surfe, Lemlist" },
+      { label: "Profil", value: "Équipe commerciale, 3 à 5 SDR" },
     ],
     problem:
-      "Import LinkedIn Sales Navigator, déduplication, scoring et enrichissement se faisaient en silo, sans traçabilité. Des heures de traitement manuel pour aboutir à des listes encore partielles et non priorisées.",
+      "Après chaque extraction LinkedIn, l'équipe passait plusieurs heures à nettoyer les listes, chercher des emails manuellement et décider qui contacter en priorité, sans savoir si le contact était déjà dans le CRM, ni comment le classer.",
+    stackTools: [
+      { name: "HubSpot", slug: "hubspot" },
+      { name: "Apollo", slug: "apollographql", src: "https://logosandtypes.com/wp-content/uploads/2022/09/apollo-io.svg" },
+      { name: "Surfe", slug: "surfe", src: "https://cdn.brandfetch.io/surfe.com/w/256/h/256/logo" },
+      { name: "Lemlist", slug: "lemlist", src: "https://cdn.brandfetch.io/lemlist.com/fallback/lettermark/theme/dark/h/256/w/256/icon?c=1bfwsmEH20zzEfSNTed" },
+    ],
     workflowSteps: pipelineWorkflowSteps,
     steps: [
-      { number: "01", title: "Import CSV Sales Nav, normalisation et déduplication automatique contre HubSpot", tools: ["HubSpot"] },
-      { number: "02", title: "Scoring ICP 100 pts sur persona, secteur, timing et réseau — priorisation Hot/Warm/Cold", tools: [] },
-      { number: "03", title: "Enrichissement email/mobile en cascade avec logique fallback : Apollo, Surfe, Lemlist", tools: ["Apollo", "Surfe", "Lemlist"] },
-      { number: "04", title: "Preview, validation puis push direct API HubSpot : contacts et companies créés ou mis à jour", tools: ["HubSpot"] },
+      { number: "01", title: "Import du fichier LinkedIn, vérification automatique des doublons dans HubSpot", tools: ["HubSpot"] },
+      { number: "02", title: "Priorisation automatique : Chaud / Tiède / Froid selon le profil, le secteur et le réseau", tools: [] },
+      { number: "03", title: "Recherche des emails et téléphones via trois sources successives : Apollo, Surfe, Lemlist", tools: ["Apollo", "Surfe", "Lemlist"] },
+      { number: "04", title: "Validation puis mise à jour directe dans HubSpot : contacts et entreprises créés ou mis à jour", tools: ["HubSpot"] },
     ],
     results: [
-      "Un seul flux traçable du CSV brut au contact CRM qualifié",
-      "Priorisation automatique Hot/Warm/Cold dès l'import",
-      "Couverture contact maximisée, sans appels API redondants",
+      "500 prospects traités en moins de 10 min, contre 4 à 5h en manuel",
+      "75 à 85 % des contacts enrichis avec email ou téléphone",
+      "Les leads les plus pertinents remontent en tête de liste dès l'import",
+      "Zéro doublon créé en CRM, pipeline toujours propre",
     ],
   },
   {
-    title: "Relances commerciales automatisées",
+    title: "Traitement automatique des factures fournisseurs",
     context: [
-      { label: "Profil", value: "PME, 5 commerciaux" },
-      { label: "Stack", value: "HubSpot, Gmail, Slack" },
+      { label: "Profil", value: "PME, 15 à 30 salariés" },
     ],
     problem:
-      "Les relances sont faites de mémoire ou oubliées. Les commerciaux passent 2h par semaine à organiser leur pipeline manuellement, sans vue consolidée des prospects chauds.",
+      "Le service comptable recevait les factures par email, les saisissait manuellement dans le tableur de suivi et les classait dans Drive. Résultat : 8 à 10h/mois perdues en saisie répétitive, des paiements oubliés et des doublons réguliers.",
+    stackTools: [
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+      { name: "Google Drive", slug: "googledrive", src: "/googledrive.svg" },
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+    ],
+    workflowSteps: facturesWorkflowSteps,
     steps: [
-      { number: "01", title: "Nouveau prospect tagué selon la source d'entrée", tools: ["HubSpot", "n8n"] },
-      { number: "02", title: "J+3 sans réponse : email de relance personnalisé envoyé", tools: ["Gmail"] },
-      { number: "03", title: "J+7 sans réponse : notification Slack au commercial responsable", tools: ["Slack"] },
-      { number: "04", title: "Rapport hebdo des conversions envoyé chaque lundi", tools: ["Gmail"] },
+      { number: "01", title: "Facture reçue par email → extraction automatique par IA (fournisseur, montant, échéance)", tools: ["Gmail"] },
+      { number: "02", title: "Classement dans Google Drive + enregistrement dans Airtable avec lien direct", tools: ["Google Drive", "Airtable"] },
+      { number: "03", title: "Alerte si données incomplètes, validation automatique sinon", tools: ["Gmail"] },
+      { number: "04", title: "Rappel de paiement envoyé 5 jours avant l'échéance", tools: ["Gmail"] },
+      { number: "05", title: "Rapport mensuel automatique envoyé le 1er du mois", tools: ["Airtable", "Gmail"] },
     ],
     results: [
-      "Zéro relance oubliée",
-      "~2h économisées par commercial par semaine",
-      "Pipeline à jour sans saisie manuelle",
+      "8 à 10h/mois de saisie manuelle éliminées → ~108h/an économisées",
+      "Délai de traitement d'une facture : 2 jours → moins de 10 minutes",
+      "0 facture perdue ou dupliquée dans le suivi",
+      "~108h × 35 €/h = ~3 780 €/an de valeur générée",
+    ],
+  },
+  {
+    title: "Gestion locative automatisée : quittances, relances et renouvellements",
+    context: [
+      { label: "Profil", value: "Gestionnaire locatif, 60 à 100 lots" },
+    ],
+    problem:
+      "Chaque mois, l'équipe envoyait les quittances de loyer manuellement à 80 locataires, surveillait les paiements et relançait un par un les retardataires. Avec les renouvellements à anticiper, cela représentait 3 à 4 jours de travail répétitif chaque mois.",
+    stackTools: [
+      { name: "Airtable", slug: "airtable", src: "/airtable.jpg" },
+      { name: "Gmail", slug: "gmail", src: "/gmail.svg" },
+      { name: "Slack", slug: "slack", src: "/slack.svg" },
+    ],
+    workflowSteps: locatifWorkflowSteps,
+    steps: [
+      { number: "01", title: "Le 1er du mois : quittances générées et envoyées automatiquement à chaque locataire", tools: ["Airtable", "Gmail"] },
+      { number: "02", title: "J+5 sans paiement : email de rappel automatique au locataire", tools: ["Gmail"] },
+      { number: "03", title: "J+10 : second rappel + alerte Slack au gestionnaire avec liste des impayés", tools: ["Gmail", "Slack"] },
+      { number: "04", title: "3 mois avant fin de bail : email de proposition de renouvellement", tools: ["Airtable", "Gmail"] },
+      { number: "05", title: "Fin de mois : rapport d'encaissement envoyé à chaque propriétaire", tools: ["Airtable", "Gmail"] },
+    ],
+    results: [
+      "80 quittances envoyées en < 2 min, contre 3h30 de saisie manuelle chaque mois",
+      "Taux de recouvrement amélioré : relances systématiques, aucun impayé oublié",
+      "~90h/an économisées → ~3 150 €/an au coût chargé 35 €/h",
+      "0 bail renouvelé dans l'urgence : chaque échéance anticipée 3 mois à l'avance",
     ],
   },
 ];
 
-function ToolIcon({ name, slug }: { name: string; slug: string }) {
+function ToolIcon({ name, slug, localSrc }: { name: string; slug: string; localSrc?: string }) {
   return (
     <img
-      src={`https://cdn.simpleicons.org/${slug}`}
+      src={localSrc ?? `https://cdn.simpleicons.org/${slug}`}
       alt={name}
       title={name}
       className="h-5 w-5 opacity-55 grayscale transition-opacity duration-300 hover:opacity-80 hover:grayscale-0"
@@ -338,7 +491,7 @@ function WorkflowSteps({ steps }: { steps: Step[] }) {
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 {active.tools.map((tool) => (
-                  <ToolIcon key={tool.slug} name={tool.name} slug={tool.slug} />
+                  <ToolIcon key={tool.slug} name={tool.name} slug={tool.slug} localSrc={tool.src} />
                 ))}
               </div>
             </div>
@@ -370,13 +523,12 @@ function KepreaModalContent() {
     <>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <span className="kicker text-[#66615a]">Keprea · Cas réel</span>
-          <h3 className="mt-3 font-heading text-2xl font-semibold tracking-[-0.05em] text-[#111111] sm:text-3xl">
+          <h3 className="font-heading text-2xl font-semibold tracking-[-0.05em] text-[#111111] sm:text-3xl">
             Automatisation des remontées sécurité sur site
           </h3>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
             <span className="text-[#b0a89e]">
-              Secteur <span className="text-[#5F5F5F]">Agriculture</span>
+              Secteur <span className="text-[#5F5F5F]">Agritech</span>
             </span>
             <span className="text-[#b0a89e]">
               Taille <span className="text-[#5F5F5F]">20 employés</span>
@@ -437,7 +589,7 @@ function KepreaModalContent() {
             <span className="text-[#9a5a2c]">~4 700 €/an</span>
           </p>
           <p className="text-[10px] leading-relaxed text-[#b0a89e]">
-            Estimations fondées sur les volumes observés chez Keprea : 120 incidents déclarés/an, 10 min de saisie par déclaration, plan d'action généré pour chaque incident.
+            Estimations fondées sur les volumes observés : 120 incidents déclarés/an, 10 min de saisie par déclaration. *1h : temps de rédaction manuelle d'un plan d'action mesuré en interne avant automatisation.
           </p>
         </div>
         <div className="mt-3 rounded-xl border border-black/5 bg-white/60 px-4 py-3">
@@ -455,10 +607,7 @@ function KepreaModalContent() {
 function CasTypeModalContent({ casType }: { casType: CasType }) {
   return (
     <>
-      <span className="inline-block rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-        {casType.badge ?? "Scénario illustratif"}
-      </span>
-      <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.04em] text-[#111111] sm:text-3xl">
+      <h3 className="font-heading text-2xl font-semibold tracking-[-0.04em] text-[#111111] sm:text-3xl">
         {casType.title}
       </h3>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
@@ -611,32 +760,44 @@ function DetailButton({ onClick, label }: { onClick: () => void; label: string }
 function KepreaCompactCard({ onDetail }: { onDetail: () => void }) {
   return (
     <div className="panel-shell">
-      <div className="panel-core rounded-[1.8rem] p-5 md:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex-1">
-            <span className="kicker text-[#66615a]">Keprea · Cas réel</span>
-            <h3 className="mt-2 font-heading text-xl font-semibold tracking-[-0.05em] text-[#111111] sm:text-2xl">
-              Automatisation des remontées sécurité
-            </h3>
-            <p className="mt-1.5 max-w-sm text-sm leading-relaxed text-[#5F5F5F]">
-              Automatisation des process de remontées d'incidents sur site
-            </p>
-          </div>
+      <div className="panel-core rounded-[1.8rem] p-5 md:p-7">
 
-          {/* Métriques en ligne */}
-          <div className="flex shrink-0 flex-wrap gap-x-6 gap-y-2 sm:justify-end">
-            {keyMetrics.slice(0, 3).map((m) => (
-              <div key={m.value} className="sm:text-right">
-                <p className="font-heading text-xl font-semibold tracking-[-0.04em] text-[#9a5a2c]">
-                  {m.value}
-                </p>
-                <p className="text-[10px] leading-snug text-[#b0a89e]">{m.label}</p>
-              </div>
-            ))}
-          </div>
+        {/* Tags contexte */}
+        <div className="flex flex-wrap gap-2">
+          <span className="rounded-full border border-black/8 bg-white/70 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#66615a]">Agritech</span>
+          <span className="rounded-full border border-black/8 bg-white/70 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#66615a]">20 employés</span>
+          <span className="rounded-full border border-black/8 bg-white/70 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#66615a]">Déployé en 2 semaines</span>
         </div>
 
-        <div className="mt-4 flex justify-end">
+        {/* Titre */}
+        <h3 className="mt-3 font-heading text-xl font-semibold tracking-[-0.05em] text-[#111111] sm:text-2xl">
+          Automatisation des remontées sécurité sur site
+        </h3>
+
+        {/* Description */}
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#5F5F5F]">
+          Les incidents étaient remontés manuellement (papier ou mail) sans traçabilité, sans suivi des délais, sans alerte automatique. Chaque déclaration nécessitait une saisie manuelle puis la rédaction d'un plan d'action depuis zéro.
+        </p>
+
+        {/* Bas de carte : stack + bouton */}
+        <div className="mt-5 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#b0a89e]">Stack</p>
+            <div className="flex items-center gap-1.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.07] bg-white/80 p-1">
+                <img src="/airtable.jpg" alt="Airtable" className="h-full w-full object-contain rounded-lg" />
+              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.07] bg-white/80 p-1.5">
+                <img src="/slack.svg" alt="Slack" className="h-full w-full object-contain" />
+              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.07] bg-white/80 p-1.5">
+                <img src="/gmail.svg" alt="Gmail" className="h-full w-full object-contain" />
+              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-black/[0.07] bg-white/80 p-1.5">
+                <img src="/googledrive.svg" alt="Google Drive" className="h-full w-full object-contain" />
+              </div>
+            </div>
+          </div>
           <DetailButton onClick={onDetail} label="Voir le cas complet" />
         </div>
       </div>
@@ -649,11 +810,7 @@ function CasTypeCompactCard({ casType, onDetail }: { casType: CasType; onDetail:
     <div className="panel-shell h-full">
       <div className="panel-core flex h-full flex-col rounded-[1.5rem] p-5 md:p-6">
 
-        <span className="self-start rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-          {casType.badge ?? "Scénario illustratif"}
-        </span>
-
-        <h3 className="mt-4 font-heading text-xl font-semibold tracking-[-0.04em] text-[#111111] md:text-2xl">
+        <h3 className="font-heading text-xl font-semibold tracking-[-0.04em] text-[#111111] md:text-2xl">
           {casType.title}
         </h3>
 
@@ -665,16 +822,28 @@ function CasTypeCompactCard({ casType, onDetail }: { casType: CasType; onDetail:
           ))}
         </div>
 
-        <div className="mt-5 flex flex-1 flex-col gap-2.5">
-          {casType.results.map((result) => (
-            <div key={result} className="flex items-start gap-2.5">
-              <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#9a5a2c]" />
-              <p className="text-sm leading-snug text-[#111111]">{result}</p>
-            </div>
-          ))}
-        </div>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-[#5F5F5F]">{casType.problem}</p>
 
-        <div className="mt-5 flex justify-end">
+        <div className="mt-5 flex items-center justify-between gap-4">
+          {casType.stackTools && (
+            <div className="flex items-center gap-2">
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#b0a89e]">Stack</p>
+              <div className="flex items-center gap-1.5">
+                {casType.stackTools.map((tool) => (
+                  <div key={tool.slug} className="flex h-7 w-7 items-center justify-center rounded-xl border border-black/[0.07] bg-white/80 p-1.5">
+                    <img
+                      src={tool.src ?? `https://cdn.simpleicons.org/${tool.slug}`}
+                      alt={tool.name}
+                      title={tool.name}
+                      className="h-full w-full object-contain"
+                      loading="lazy"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <DetailButton onClick={onDetail} label="En savoir plus" />
         </div>
       </div>
@@ -690,7 +859,7 @@ export function PrototypesSection() {
     <section id="realisations" className="scroll-mt-24 py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          title="Un cas concret, structuré comme une vraie livraison."
+          title="Des cas concrets délivrés à nos clients."
           subtitle="Contexte réel, enchaînement documenté, résultat mesurable."
         />
 
@@ -700,7 +869,7 @@ export function PrototypesSection() {
         </FadeUp>
 
         {/* Scénarios illustratifs */}
-        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
           {casTypes.map((casType, i) => (
             <FadeUp key={casType.title} delay={0.05 + i * 0.06} className="h-full">
               <CasTypeCompactCard casType={casType} onDetail={() => setSelectedModal(i)} />

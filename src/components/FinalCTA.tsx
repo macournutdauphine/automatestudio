@@ -7,7 +7,7 @@ export function FinalCTA() {
     name: "",
     email: "",
     company: "",
-    need: "Déploiement accompagné",
+    need: "Mise en place + maintenance",
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -60,7 +60,7 @@ export function FinalCTA() {
 
       if (response.ok) {
         setSubmitted(true);
-        setFormState({ name: "", email: "", company: "", need: "Déploiement accompagné", message: "" });
+        setFormState({ name: "", email: "", company: "", need: "Mise en place + maintenance", message: "" });
       } else {
         setErrors({ submit: "Une erreur est survenue. Réessayez ou écrivez-moi directement." });
       }
@@ -82,16 +82,16 @@ export function FinalCTA() {
             <div className="panel-core p-5 md:p-6">
               <p className="kicker">Dernière étape</p>
               <h2 className="mt-3 font-heading text-4xl font-semibold tracking-[-0.06em] text-[#111111] md:text-5xl">
-                Décrivez un cas précis, je vous dirai comment l'automatiser et comment l'expliquer à l'équipe.
+                Décrivez un cas précis, je vous dirai comment l'automatiser et comment le maintenir pour vous.
               </h2>
               <p className="mt-3 max-w-xl text-pretty text-base leading-7 text-[#5F5F5F] md:text-lg">
-                Le premier échange sert à comprendre vos tâches répétitives, vos outils actuels et le niveau d'autonomie que vous voulez garder. À partir de là, on peut proposer un cadre simple et utile.
+                Le premier échange sert à comprendre vos tâches répétitives et vos outils actuels. À partir de là, on construit un système qui tourne sans que vous ayez à vous en occuper.
               </p>
 
               <div className="mt-4 space-y-2">
                 {[
-                  "Un système lisible, pas une boîte noire.",
-                  "Une prise en main claire pour l'équipe.",
+                  "Un système fiable, qui tourne sans intervention de votre part.",
+                  "Une maintenance continue.",
                   "Une proposition alignée sur vos outils réels.",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3 text-sm text-[#111111]">
@@ -184,7 +184,7 @@ export function FinalCTA() {
                       onChange={(event) => setFormState((current) => ({ ...current, need: event.target.value }))}
                     className={fieldClassName}
                   >
-                      <option>Déploiement accompagné</option>
+                      <option>Mise en place + maintenance</option>
                       <option>Relances et suivi client</option>
                       <option>CRM et synchronisation</option>
                       <option>Reporting et synthèse</option>
@@ -207,7 +207,7 @@ export function FinalCTA() {
                     value={formState.message}
                     onChange={(event) => setFormState((current) => ({ ...current, message: event.target.value }))}
                     className={[fieldClassName, "resize-y"].join(" ")}
-                    placeholder="Expliquez la tâche répétitive, les outils utilisés et ce que vous voulez faire comprendre à l'équipe."
+                    placeholder="Expliquez la tâche répétitive et les outils utilisés."
                     aria-invalid={Boolean(errors.message)}
                     aria-describedby={errors.message ? "message-error" : "message-help"}
                   />
@@ -217,7 +217,7 @@ export function FinalCTA() {
                     </p>
                   ) : (
                   <p id="message-help" className="mt-2 text-sm text-[#66615a]">
-                      Exemple: relances de prospects, reporting hebdomadaire, suivi CRM, préparation de documents ou prise en main d'un flux existant.
+                      Exemple : relances de prospects, reporting hebdomadaire, suivi CRM, préparation de documents ou reprise d'un flux existant.
                     </p>
                   )}
                 </div>

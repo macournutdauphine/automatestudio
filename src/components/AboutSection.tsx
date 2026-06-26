@@ -2,9 +2,9 @@ import { FadeUp, StaggerContainer } from "./animations";
 import { SectionHeading } from "./ui";
 import {
   ClipboardListIcon,
-  FileCheckIcon,
   PackageSearchIcon,
   RocketIcon,
+  ShieldCheckIcon,
 } from "./icons";
 
 const steps = [
@@ -31,10 +31,10 @@ const steps = [
   },
   {
     number: "04",
-    title: "Transmission",
+    title: "Maintenance",
     description:
-      "On vous laisse un système compréhensible, maintenable et déjà expliqué à celles et ceux qui vont s'en servir.",
-    icon: FileCheckIcon,
+      "On prend en charge la continuité du système : surveillance, corrections, mises à jour. Il tourne, et vous n'avez pas à vous en occuper.",
+    icon: ShieldCheckIcon,
   },
 ];
 
@@ -43,8 +43,8 @@ export function AboutSection() {
     <section id="about" className="scroll-mt-24 py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          title="Un cadre simple, un système lisible, et quelqu'un qui prend le temps d'expliquer ce qui a été construit."
-          subtitle="Je conçois des automatisations qui s'intègrent à vos outils du quotidien, puis je fais en sorte que vos équipes comprennent comment elles tournent."
+          title="Un cadre simple, un système robuste, et quelqu'un qui veille à ce qu'il tourne."
+          subtitle="Je conçois des automatisations qui s'intègrent à vos outils du quotidien, puis je veille à ce qu'elles restent opérationnelles dans la durée."
         />
 
         {/* Intro personnelle */}
@@ -54,8 +54,8 @@ export function AboutSection() {
               <div className="flex flex-col items-start gap-3 md:flex-row md:gap-5">
 
                 <div className="flex shrink-0 flex-col items-center gap-3 md:items-start">
-                  <div className="h-36 w-36 overflow-hidden rounded-2xl">
-                    <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" />
+                  <div className="h-36 w-36 overflow-hidden rounded-2xl" style={{ isolation: 'isolate' }}>
+                    <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" style={{ imageRendering: 'high-quality' }} />
                   </div>
                   <div className="text-center md:text-left">
                     <p className="font-heading text-base font-semibold text-[#111111]">Mathieu Cournut</p>
@@ -70,10 +70,10 @@ export function AboutSection() {
                     Je préfère montrer des systèmes concrets et dire clairement ce qu'ils font, avant de parler d'IA.
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-[#5F5F5F] md:text-base">
-                    J'ai découvert l'automatisation lors de mon stage chez Keprea, où j'ai déployé un premier workflow opérationnel en quelques jours, sans développeur ni budget technique. C'est là que j'ai compris que le vrai gain vient autant de la mise en place que de la compréhension du système par ceux qui l'utilisent.
+                    J'ai découvert l'automatisation lors d'une première mission terrain, où j'ai déployé un premier workflow opérationnel en quelques jours, sans développeur ni budget technique. C'est là que j'ai compris que le vrai gain vient autant de la mise en place que de la fiabilité du système dans le temps.
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-[#5F5F5F] md:text-base">
-                    Je travaille avec des équipes qui veulent des résultats mesurables, un discours net et une manière simple de reprendre la main ensuite.
+                    Je travaille avec des équipes qui veulent des résultats mesurables, un discours net et un système qui continue de fonctionner sans qu'elles aient à s'en préoccuper.
                   </p>
                 </div>
               </div>

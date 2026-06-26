@@ -14,22 +14,16 @@ export function HeroSection() {
 
         <div className="grid items-center gap-8 py-6 lg:grid-cols-[1fr_0.78fr] lg:gap-16 lg:py-10">
           <div className="relative z-10 max-w-3xl lg:self-center">
-            <FadeUp>
-              <Pill className="border-black/10 bg-white/[0.78] text-[#111111]">
-                Automatisation accompagnée pour équipes opérationnelles
-              </Pill>
-            </FadeUp>
-
             <FadeUp delay={0.06}>
               <h1 className="mt-5 font-heading max-w-[760px] text-[clamp(2.9rem,10vw,4.4rem)] font-semibold leading-[0.9] tracking-[-0.06em] text-balance text-[#111111] lg:text-[clamp(3.8rem,6vw,6.4rem)]">
-                Des automatisations que vos équipes 
-                <span className="block">s'approprient.</span>
+                Des automatisations qui fonctionnent
+                <span className="block">et qui durent.</span>
               </h1>
             </FadeUp>
 
             <FadeUp delay={0.14}>
               <p className="mt-6 max-w-xl text-[1.05rem] leading-[1.8] text-[#5F5F5F] text-pretty">
-                Parce que je pense que la valeur d'une automatisation ne se mesure pas seulement à sa capacité à réduire les coûts, mais aussi à la manière dont elle est adoptée.
+                Parce que la valeur d'une automatisation ne se mesure pas seulement au jour de sa mise en place, mais à sa capacité à rester opérationnelle dans le temps.
               </p>
             </FadeUp>
 
@@ -48,7 +42,7 @@ export function HeroSection() {
               <div className="mt-8 border-t border-black/[0.08] pt-6">
                 <p className="kicker">Qui suis-je ?</p>
                 <p className="mt-3 text-[0.9rem] leading-relaxed text-[#5F5F5F]">
-                  Etdiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je déploie des workflows opérationnels, sans développeur ni budget technique. Selon moi, le vrai gain vient autant de la mise en place que de la compréhension du système par ceux qui l'utilisent.
+                  Étudiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je déploie des workflows opérationnels, sans développeur ni budget technique, pour vous proposer la qualité de mes services à des prix compétitifs.
                 </p>
                 <div className="mt-4 flex items-center gap-2">
                   <span className="font-heading text-[0.92rem] font-semibold tracking-[-0.03em] text-[#111111]">Mathieu Cournut</span>

@@ -26,19 +26,19 @@ src/
 │   ├── animations.tsx   # FadeUp, WordsPullUp, StaggerContainer
 │   ├── ui.tsx           # Button (variants), Pill, SectionHeading
 │   ├── icons.tsx        # 27 icônes SVG custom (factory pattern)
-│   ├── Navbar.tsx
-│   ├── HeroSection.tsx  # Contient WorkflowVisual
+│   ├── Navbar.tsx           # Non rendu dans App.tsx (présent mais non utilisé)
+│   ├── HeroSection.tsx      # Contient WorkflowVisual
 │   ├── WorkflowVisual.tsx
+│   ├── ValueSection.tsx     # Section valeur / cas d'usage
 │   ├── StackProofSection.tsx
-│   ├── ProblemSection.tsx
-│   ├── OffersSection.tsx
 │   ├── PrototypesSection.tsx
-│   ├── AboutSection.tsx
+│   ├── OffersSection.tsx
+│   ├── AboutSection.tsx     # Non rendu dans App.tsx (présent mais non utilisé)
 │   ├── FAQSection.tsx
-│   └── FinalCTA.tsx     # Formulaire contact (simulation, pas de backend)
+│   └── FinalCTA.tsx         # Formulaire contact (simulation, pas de backend)
 ```
 
-Ordre des sections dans la page : Navbar → Hero → Stack → Problem → Offers → Prototypes → About → FAQ → FinalCTA.
+Ordre des sections dans la page : Hero → Value → Stack → Prototypes → Offers → FAQ → FinalCTA.
 
 ## Design system
 

@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui";
 
 const links = [
-  { href: "#offre", label: "Offre" },
-  { href: "#realisations", label: "Réalisations" },
   { href: "#valeur", label: "Valeur" },
-  { href: "#about", label: "Méthode" },
+  { href: "#objectif", label: "Intégrations" },
+  { href: "#realisations", label: "Réalisations" },
+  { href: "#offre", label: "Offre" },
   { href: "#faq", label: "FAQ" },
   { href: "#contact", label: "Contact" },
 ];
@@ -44,17 +44,30 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="surface-card flex items-center justify-between rounded-full px-4 py-3 pl-3 pr-3 sm:px-5">
           <a href="#hero" className="group flex items-center gap-3">
-            <span className="relative flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-[#111111] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
-              <span className="absolute left-3 top-3 h-1.5 w-1.5 rounded-full bg-[#d8b06b]" />
-              <span className="absolute right-3 top-3 h-1.5 w-1.5 rounded-full bg-[#f1e3cf]" />
-              <span className="absolute bottom-3 left-3 right-3 h-px bg-white/25" />
+            <span className="flex-shrink-0 rounded-[0.72rem] border border-black/[0.07] bg-black/[0.055] p-[2.5px]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-[0.5rem] bg-[#9A5A2C] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_3px_10px_rgba(154,90,44,0.28)]">
+                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" aria-hidden="true">
+                  <circle cx="7" cy="5" r="1.85" fill="white" />
+                  <path d="M 13 5.5 Q 15 3 17 5.5" stroke="white" strokeWidth="1.7" fill="none" strokeLinecap="round" />
+                  <path
+                    d="M 2 12 C 5 19, 17 19, 20 12"
+                    stroke="white"
+                    strokeWidth="1.65"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
+                  <circle cx="2" cy="12" r="1.85" fill="white" />
+
+                  <circle cx="20" cy="12" r="1.85" fill="white" />
+                </svg>
+              </span>
             </span>
             <div className="leading-none">
               <p className="font-heading text-lg font-semibold tracking-[-0.04em] text-[#111111]">
                 Automate Studio
               </p>
               <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-                automatisation + prise en main
+                automatisation & maintenance
               </p>
             </div>
           </a>

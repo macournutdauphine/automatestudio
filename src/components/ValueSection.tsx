@@ -42,8 +42,8 @@ const automations = [
 
 const outcomes = [
   "Gagnez du temps et augmentez la productivité de vos équipes.",
-  "Une compréhension des automatisations qui tire la productivité vers le haut.",
-  "Chaque automatisation reste lisible, modifiable, et entre vos mains.",
+  "Des automatisations maintenues en conditions opérationnelles, sans effort de votre côté.",
+  "Chaque flux reste fonctionnel dans le temps, même quand vos outils évoluent.",
 ];
 
 export function ValueSection() {

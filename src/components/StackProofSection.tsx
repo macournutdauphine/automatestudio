@@ -3,12 +3,12 @@ import { FadeUp } from "./animations";
 
 const logos = [
   { name: "Slack",           slug: "slack",           featured: true,  localSrc: "/slack.svg" },
-  { name: "Airtable",        slug: "airtable" },
+  { name: "Airtable",        slug: "airtable",        localSrc: "/airtable.jpg" },
   { name: "Notion",          slug: "notion" },
-  { name: "Gmail",           slug: "gmail" },
-  { name: "Google Drive",    slug: "googledrive" },
+  { name: "Gmail",           slug: "gmail",           localSrc: "/gmail.svg" },
+  { name: "Google Drive",    slug: "googledrive",  localSrc: "/googledrive.svg" },
   { name: "HubSpot",         slug: "hubspot" },
-  { name: "Google Calendar", slug: "googlecalendar" },
+  { name: "Google Calendar", slug: "googlecalendar", localSrc: "/googlecalendar.png" },
   { name: "n8n",             slug: "n8n" },
   { name: "ChatGPT",          slug: "openai",          featured: true,  localSrc: "/openai.svg" },
   { name: "Teams",           slug: "microsoftteams",                   localSrc: "/teams.svg" },
@@ -68,7 +68,7 @@ function LogoCard({ name, slug, featured, localSrc, bigIcon, mediumIcon }: Logo)
 
 export function StackProofSection() {
   return (
-    <section className="py-12 md:py-14">
+    <section id="objectif" className="py-12 md:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-3 lg:grid-cols-[0.84fr_1.16fr] lg:items-stretch">
           {/* Left: Stack info */}
@@ -95,13 +95,7 @@ export function StackProofSection() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="kicker">Connecteurs actifs</p>
-                  <h3 className="mt-4 max-w-md font-heading text-3xl font-semibold tracking-[-0.05em] text-[#111111]">
-                    Vos outils restent visibles, groupés et exploitables.
-                  </h3>
                 </div>
-                <span className="shrink-0 rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-                  12 logos
-                </span>
               </div>
 
               <div className="mt-5 grid flex-1 auto-rows-[88px] grid-cols-2 gap-2.5 sm:grid-cols-4">

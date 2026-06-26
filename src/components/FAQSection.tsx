@@ -19,12 +19,12 @@ const faqs = [
     answer: "Non. On l'utilise seulement quand elle améliore vraiment le flux, par exemple pour résumer, qualifier ou structurer une entrée.",
   },
   {
-    question: "Est-ce que vous faites aussi la prise en main ?",
-    answer: "Oui. La mise en place inclut une explication claire du fonctionnement, les règles à connaître et la manière de garder le système lisible dans le temps.",
+    question: "Est-ce que vous maintenez le système après la mise en place ?",
+    answer: "Oui. Une fois le flux déployé, je le surveille, je corrige les erreurs et je l'adapte quand vos outils changent. Vous n'avez pas à vous en occuper.",
   },
   {
-    question: "Que reçoivent mes équipes après livraison ?",
-    answer: "Un système compréhensible, une logique documentée et les repères nécessaires pour l'utiliser sans dépendre de moi au quotidien.",
+    question: "Qu'est-ce qui change concrètement pour mes équipes ?",
+    answer: "Vos équipes n'ont plus à gérer la technique. L'automatisation tourne, je la maintiens, elles se concentrent sur leur cœur de métier.",
   },
 ];
 
@@ -33,8 +33,8 @@ export function FAQSection() {
     <section id="faq" className="scroll-mt-24 py-12 md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          title="Les questions qu'on pose avant de livrer un système que l'équipe pourra vraiment reprendre."
-          subtitle="Les réponses ci-dessous reflètent une logique simple: déployer proprement, expliquer sans jargon et laisser quelque chose de stable."
+          title="Les questions qu'on pose avant de déployer un système qui tourne sans intervention."
+          subtitle="Les réponses ci-dessous reflètent une logique simple : déployer proprement et maintenir ce qui fonctionne."
         />
 
         <div className="mt-6 panel-shell">
