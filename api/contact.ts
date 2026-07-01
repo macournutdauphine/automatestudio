@@ -24,12 +24,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const { name, email, company, need, message } = req.body as {
     name: string;
     email: string;
-    company?: string;
+    company: string;
     need?: string;
     message: string;
   };
 
-  if (!name?.trim() || !email?.trim() || !message?.trim() || message.trim().length < 20) {
+  if (!name?.trim() || !email?.trim() || !company?.trim() || !message?.trim()) {
     return res.status(400).json({ error: "Données invalides" });
   }
 
