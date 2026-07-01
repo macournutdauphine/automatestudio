@@ -68,10 +68,16 @@ export function FinalCTA() {
         setSubmitted(true);
         setFormState({ name: "", email: "", company: "", need: "Mise en place + maintenance", message: "" });
       } else {
-        setErrors({ submit: "Une erreur est survenue. Réessayez ou écrivez-moi directement." });
+        let message = "Une erreur est survenue. Écrivez-moi directement à m.cournut@keprea.com.";
+        try {
+          const body = await response.json() as { code?: string };
+          if (body.code === "VALIDATION_ERROR") message = "Certains champs sont invalides. Vérifiez que tous les champs sont bien remplis.";
+          else if (body.code === "DB_ERROR") message = "Impossible d'enregistrer votre demande pour le moment. Réessayez dans quelques instants.";
+        } catch { /* réponse non-JSON, on garde le message par défaut */ }
+        setErrors({ submit: message });
       }
     } catch {
-      setErrors({ submit: "Problème réseau. Réessayez ou écrivez-moi directement." });
+      setErrors({ submit: "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez." });
     } finally {
       setSubmitting(false);
     }
