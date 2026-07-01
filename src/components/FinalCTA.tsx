@@ -15,6 +15,7 @@ export function FinalCTA() {
   const [submitting, setSubmitting] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+  const companyRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
   function validate() {
@@ -28,7 +29,11 @@ export function FinalCTA() {
       nextErrors.email = "Ajoutez une adresse email valide.";
     }
 
-    if (formState.message.trim().length < 20) {
+    if (formState.company.trim().length < 1) {
+      nextErrors.company = "Indiquez votre entreprise.";
+    }
+
+    if (formState.message.trim().length < 1) {
       nextErrors.message = "Décrivez brièvement le besoin et les outils concernés.";
     }
 
@@ -43,6 +48,7 @@ export function FinalCTA() {
     if (Object.keys(nextErrors).length > 0) {
       if (nextErrors.name) nameRef.current?.focus();
       else if (nextErrors.email) emailRef.current?.focus();
+      else if (nextErrors.company) companyRef.current?.focus();
       else if (nextErrors.message) messageRef.current?.focus();
       return;
     }
@@ -118,7 +124,7 @@ export function FinalCTA() {
                       type="text"
                       autoComplete="name"
                       value={formState.name}
-                      onChange={(event) => setFormState((current) => ({ ...current, name: event.target.value }))}
+                      onChange={(event) => { const v = event.target.value; setFormState((c) => ({ ...c, name: v })); }}
                       className={fieldClassName}
                       placeholder="Votre nom"
                       aria-invalid={Boolean(errors.name)}
@@ -142,7 +148,7 @@ export function FinalCTA() {
                       type="email"
                       autoComplete="email"
                       value={formState.email}
-                      onChange={(event) => setFormState((current) => ({ ...current, email: event.target.value }))}
+                      onChange={(event) => { const v = event.target.value; setFormState((c) => ({ ...c, email: v })); }}
                       className={fieldClassName}
                       placeholder="nom@entreprise.fr"
                       aria-invalid={Boolean(errors.email)}
@@ -162,15 +168,23 @@ export function FinalCTA() {
                       Entreprise
                     </label>
                     <input
+                      ref={companyRef}
                       id="company"
                       name="company"
                       type="text"
                       autoComplete="organization"
                       value={formState.company}
-                      onChange={(event) => setFormState((current) => ({ ...current, company: event.target.value }))}
+                      onChange={(event) => { const v = event.target.value; setFormState((c) => ({ ...c, company: v })); }}
                       className={fieldClassName}
                       placeholder="Nom de votre structure"
+                      aria-invalid={Boolean(errors.company)}
+                      aria-describedby={errors.company ? "company-error" : undefined}
                     />
+                    {errors.company ? (
+                      <p id="company-error" className="mt-2 text-sm text-[#8a3d3d]" role="alert">
+                        {errors.company}
+                      </p>
+                    ) : null}
                   </div>
 
                   <div>
@@ -181,7 +195,7 @@ export function FinalCTA() {
                       id="need"
                       name="need"
                       value={formState.need}
-                      onChange={(event) => setFormState((current) => ({ ...current, need: event.target.value }))}
+                      onChange={(event) => { const v = event.target.value; setFormState((c) => ({ ...c, need: v })); }}
                     className={fieldClassName}
                   >
                       <option>Mise en place + maintenance</option>
@@ -205,7 +219,7 @@ export function FinalCTA() {
                     name="message"
                     rows={6}
                     value={formState.message}
-                    onChange={(event) => setFormState((current) => ({ ...current, message: event.target.value }))}
+                    onChange={(event) => { const v = event.target.value; setFormState((c) => ({ ...c, message: v })); }}
                     className={[fieldClassName, "resize-y"].join(" ")}
                     placeholder="Expliquez la tâche répétitive et les outils utilisés."
                     aria-invalid={Boolean(errors.message)}
