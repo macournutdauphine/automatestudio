@@ -16,7 +16,14 @@ const logos = [
   { name: "Typeform",        slug: "typeform",        featured: true,  mediumIcon: true },
 ];
 
-type Logo = typeof logos[0];
+type Logo = {
+  name: string;
+  slug: string;
+  featured?: boolean;
+  localSrc?: string;
+  mediumIcon?: boolean;
+  bigIcon?: boolean;
+};
 
 function LogoCard({ name, slug, featured, localSrc, bigIcon, mediumIcon }: Logo) {
   const [imgError, setImgError] = useState(false);

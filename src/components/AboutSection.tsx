@@ -55,7 +55,7 @@ export function AboutSection() {
 
                 <div className="flex shrink-0 flex-col items-center gap-3 md:items-start">
                   <div className="h-36 w-36 overflow-hidden rounded-2xl" style={{ isolation: 'isolate' }}>
-                    <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" style={{ imageRendering: 'high-quality' }} />
+                    <img src="/mathieu.jpg" alt="Mathieu Cournut" className="h-full w-full object-cover object-top" style={{ imageRendering: 'auto' }} />
                   </div>
                   <div className="text-center md:text-left">
                     <p className="font-heading text-base font-semibold text-[#111111]">Mathieu Cournut</p>
