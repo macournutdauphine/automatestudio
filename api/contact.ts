@@ -8,8 +8,8 @@ const supabase = createClient(
 );
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const NOTIFY_EMAIL = "m.cournut@keprea.com";
-const FROM_EMAIL = "Automate Studio <contact@automatestudio.fr>";
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "mathieucournut798@gmail.com";
+const FROM_EMAIL = process.env.FROM_EMAIL ?? "onboarding@resend.dev";
 
 function escapeHtml(str: string): string {
   return str
