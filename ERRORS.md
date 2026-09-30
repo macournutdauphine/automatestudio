@@ -21,6 +21,27 @@ Format :
 
 **Statut :** Résolu ✓
 
+## [2026-09-30] Hero mobile — texte et boutons collés au bord droit
+
+**Symptôme :** Sur mobile (390 px), le paragraphe et les CTA du hero débordaient jusqu'au bord droit. Le contrôle `scrollWidth` ne détectait rien car la section est en `overflow-hidden`.
+**Cause :** Les lignes `whitespace-nowrap` du journal de FlowVisual élargissaient la piste de grille (`1fr` a une largeur minimale `auto`).
+**Fix :** Pistes `grid-cols-[minmax(0,1fr)]` (hero et section Usages). Règle ajoutée dans CLAUDE.md.
+**Statut :** Résolu ✓
+
+## [2026-09-30] BlurText — mots en dégradé non appliqués
+
+**Symptôme :** « production, », « maintenance. », « déjà. » restaient blancs dans les titres.
+**Cause :** Seul le mot du titre était nettoyé de sa ponctuation ; la liste `highlight` la gardait, donc aucune correspondance.
+**Fix :** Normalisation des deux côtés via `bare()`.
+**Statut :** Résolu ✓
+
+## [2026-09-29] Logos Surfe / Lemlist cassés
+
+**Symptôme :** Images vides dans les scénarios (aussi en production avant refonte).
+**Cause :** `cdn.brandfetch.io` renvoie une page HTML sans référent valide (hotlink bloqué).
+**Fix :** Monogrammes générés par `ToolIcon` ; les autres logos sont servis depuis `public/logos`.
+**Statut :** Résolu ✓
+
 ---
 
 ## Template

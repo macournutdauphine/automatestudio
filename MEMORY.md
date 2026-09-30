@@ -26,19 +26,31 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [2026-06-19] Positionnement — Pas de remplacement d'outils existants. Connexion et automatisation des outils déjà utilisés.
 - [2026-06-19] Cas concret principal — Automatisation remontées sécurité (Airtable + Apps Script + Gmail + Slack + Google Docs).
 
-## Structure des sections (ordre actuel)
+## Structure des sections (ordre actuel, depuis la refonte 2026-09)
 
-1. HeroSection
-2. StackProofSection (logos connecteurs)
-3. ProblemSection ("La friction se cache rarement dans la stratégie.")
-4. PrototypesSection (cas concret + workflow animé + CTA)
-5. AboutSection (positionnement + 4 étapes process)
-6. FAQSection
-7. FinalCTA (formulaire contact)
+1. HeroSection (hero/) — titre à mot tournant + FlowVisual
+2. IntegrationsSection (01) — 12 outils reliés à un hub
+3. UseCasesSection (02) — 4 tâches répétitives, avant → automatisation → résultat
+4. RealisationsSection (03) — cas client Keprea + 3 scénarios types + CTA
+5. OfferSection (04) — cycle de vie 5 étapes + Mise en place / Maintenance continue
+6. StudioSection (05) — fondateur + principes
+7. FAQSection (06)
+8. ContactSection (07) — formulaire /api/contact
+9. Footer
 
-OffersSection supprimée le 2026-06-19 — redondante avec AboutSection, moins efficace sans prix.
+## Décisions de la refonte « identité tech » (2026-09-29/30)
 
-## Décisions de structure (session 2026-06-19)
+- [2026-09-29] Identité — Abandon ivoire/brun/serif au profit d'une DA sombre : bleu-noir #06070B, accents violet #8B7BFF + cyan #4CD7F6, Geist + Geist Mono. Objectif : image de studio tech, perçue comme maîtrisée et soignée.
+- [2026-09-29] Effets — Inspiration React Bits (Blur/Rotating/Decrypted/Shiny Text, Spotlight Card, Aurora, Grid, CountUp, Magnetic) réimplémentée en Framer Motion/CSS dans components/fx/. Pas d'import React Bits : plusieurs composants tirent gsap/ogl/three et la licence (MIT + Commons Clause) impose de la prudence ; les équivalents maison pèsent quelques Ko.
+- [2026-09-29] Framer Motion — LazyMotion(domAnimation, strict) + composants `m.*` pour réduire le bundle ; MotionConfig reducedMotion="user".
+- [2026-09-29] Hero — Visualisation « FlowVisual » : déclencheur → agent IA → 3 actions, flux permanent (SMIL + tirets CSS) + exécution séquencée + journal d'événements ; 3 scénarios cliquables. Remplace WorkflowVisual (mort) et la photo du fondateur (déplacée en section Studio).
+- [2026-09-29] Section Offre réintroduite — elle absorbe le process de l'ancienne AboutSection (Identifier/Construire/Tester/Déployer/Accompagner) : plus de redondance entre les deux.
+- [2026-09-29] Honnêteté — Les 3 cas hors Keprea sont libellés « Scénario type / résultats attendus » (l'ancien titre laissait croire à trois clients livrés).
+- [2026-09-29] Logos — Rapatriés dans public/logos (Simple Icons) ; Surfe/Lemlist en monogramme car Brandfetch bloque le hotlink (renvoie du HTML).
+- [2026-09-30] Assets — Portrait redimensionné (WebP 45 Ko au lieu de JPEG 473 Ko), og-image.png 1200×630 (SVG non supporté par les réseaux), robots.txt + sitemap.xml.
+- [2026-09-30] Accessibilité — fg-subtle relevé à #82889E pour tenir ≥ 4,5:1 sur toutes les surfaces.
+
+## Décisions de structure (session 2026-06-19, historique)
 
 - [2026-06-19] OffersSection supprimée — jugée redondante avec AboutSection (même contenu : process en 3 vs 4 étapes). Sans prix, les cartes d'offres n'ont pas de valeur ajoutée.
 - [2026-06-19] PrototypesSection déplacée après ProblemSection (était après OffersSection).
@@ -49,14 +61,11 @@ OffersSection supprimée le 2026-06-19 — redondante avec AboutSection, moins e
 - [2026-06-19] WorkflowSteps — composant interactif remplaçant la grille statique de 6 cartes. Auto-cycle via onAnimationComplete (synchronisation parfaite ligne/cercle). STEP_DURATION = 5000ms.
 - [2026-06-19] WorkflowSteps — logos outils via Simple Icons CDN (airtable, slack, gmail, googledocs). Grayscale par défaut, couleur au hover.
 
-## Détail technique — WorkflowSteps (PrototypesSection.tsx)
+## Détail technique — WorkflowStepper (realisations/WorkflowStepper.tsx)
 
-- Auto-cycle piloté par `onAnimationComplete` sur le connecteur actif (et non setInterval) pour synchroniser exactement la fin de la ligne avec l'allumage du cercle suivant.
-- Fallback `setInterval` pour `prefers-reduced-motion` (pas d'animation à compléter).
-- Fallback `setTimeout` pour la dernière étape (pas de connecteur sortant).
-- Garde anti-stale-closure : `setActiveIndex(prev => i === prev ? prev+1 : prev)` — utilise la forme fonctionnelle pour lire l'état courant sans closure stale.
-- Clic direct sur un cercle pour naviguer (setActiveIndex immédiat).
-- Navigation par points toujours visible en bas.
+- Remplace WorkflowSteps. Une seule source de temps : la barre de progression CSS de l'étape active (`progress-fill`), dont `onAnimationEnd` passe à l'étape suivante. Plus de setInterval concurrent → nœuds et barre toujours synchronisés.
+- Pause via `animation-play-state` quand le composant est hors écran ou survolé.
+- `prefers-reduced-motion` : pas de lecture automatique, navigation manuelle par les nœuds.
 
 ## État du projet
 
@@ -65,17 +74,19 @@ OffersSection supprimée le 2026-06-19 — redondante avec AboutSection, moins e
 - [2026-06-19] Formulaire backend — Non connecté. Priorité avant toute mise en prod.
 - [2026-06-19] Analytics — Non configuré.
 - [2026-06-19] SEO — OG tags et meta description présents dans index.html. Pas de sitemap.
+- [2026-09-30] Refonte identité tech terminée sur la branche redesign/identite-tech (build OK, LCP local ≈ 0,8 s desktop).
 
 ## À faire / Backlog
 
-- [ ] Connecter le formulaire FinalCTA à un vrai backend (Netlify Forms recommandé)
+- [x] Connecter le formulaire à un vrai backend (Supabase + Resend via api/contact.ts)
 - [ ] Configurer Google Analytics ou Plausible
-- [ ] Générer un sitemap.xml
-- [ ] Tester accessibilité (Lighthouse, axe)
-- [ ] Optimiser images OG (og-image.svg → PNG pour meilleure compatibilité)
+- [x] Générer un sitemap.xml (2026-09-30)
+- [ ] Audit accessibilité automatisé (Lighthouse, axe) — contrôles manuels clavier/contraste faits le 2026-09-30
+- [x] Image OG en PNG (2026-09-30)
 - [ ] Ajouter des témoignages clients quand disponibles
-- [ ] Ajouter d'autres cas concrets dans PrototypesSection quand disponibles
-- [ ] Configurer un domaine et hébergement
+- [ ] Ajouter d'autres cas clients réels dans data/cases.ts quand disponibles
+- [x] Domaine et hébergement (automate-studio.fr sur Vercel)
+- [ ] Décider du sort de public/keprea.png (inutilisé)
 
 ## Notes techniques
 

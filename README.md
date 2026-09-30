@@ -1,126 +1,87 @@
 # Automate Studio — Site Web
 
-Site marketing monopage pour **Automate Studio**, un service de conseil en automatisation métier (IA + no-code). Le site est entièrement en français et conçu pour convertir des prospects en clients.
+Site marketing monopage pour **Automate Studio**, studio d'automatisation métier (IA + no-code) : conception, déploiement et maintenance d'automatisations branchées sur les outils existants des entreprises. Site en français, conçu pour convertir des prospects.
+
+Production : https://www.automate-studio.fr/
 
 ## Stack technique
 
-| Couche | Outil | Version |
-|--------|-------|---------|
-| UI | React | 18.3.1 |
-| Typage | TypeScript | 5.6.3 |
-| Bundler | Vite | 5.4.10 |
-| CSS | Tailwind CSS | 3.4.14 |
-| Animations | Framer Motion | 11.11.9 |
-| Icônes | Lucide React + SVG custom | 0.454.0 |
+| Couche | Outil |
+|--------|-------|
+| UI | React 18 |
+| Typage | TypeScript 5 |
+| Bundler | Vite 5 |
+| CSS | Tailwind CSS 3 |
+| Animations | Framer Motion 11 (`LazyMotion` + `domAnimation`) |
+| Icônes | Lucide React |
+| Formulaire | Route Vercel `api/contact.ts` (Supabase + Resend) |
 
 ## Démarrage rapide
 
 ```bash
 npm install
 npm run dev       # Serveur dev sur http://localhost:5173
-npm run build     # Build de production dans dist/
-npm run preview   # Prévisualise le build prod
+npm run build     # Vérification TypeScript + build de production dans dist/
+npm run preview   # Prévisualise le build sur http://localhost:4173
 ```
+
+La route `/api/contact` ne tourne que sur Vercel (ou `vercel dev`). Variables d'environnement : `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `RESEND_API_KEY`, `NOTIFY_EMAIL`, `FROM_EMAIL`.
 
 ## Structure du projet
 
 ```
-siteweb/
-├── index.html              # Entrée HTML (lang="fr", OG tags, Google Fonts)
-├── src/
-│   ├── main.tsx            # Point d'entrée React
-│   ├── App.tsx             # Racine — orchestre toutes les sections
-│   ├── index.css           # Styles globaux + variables CSS + utilitaires custom
-│   └── components/
-│       ├── animations.tsx  # Wrappers Framer Motion (FadeUp, WordsPullUp, Stagger)
-│       ├── ui.tsx          # Primitives (Button, Pill, SectionHeading)
-│       ├── icons.tsx       # 27 icônes SVG custom
-│       ├── Navbar.tsx      # Header sticky + menu mobile animé
-│       ├── HeroSection.tsx # Section hero + CTA principal
-│       ├── WorkflowVisual.tsx  # Animation workflow interactive (auto-cycle)
-│       ├── StackProofSection.tsx  # Logos d'intégrations (12 outils)
-│       ├── ProblemSection.tsx     # 4 points de friction → bénéfices
-│       ├── OffersSection.tsx      # Offre unique : déploiement accompagné
-│       ├── PrototypesSection.tsx  # 3 études de cas réels
-│       ├── AboutSection.tsx       # Positionnement + 4 étapes de process
-│       ├── FAQSection.tsx         # 6 questions accordéon
-│       └── FinalCTA.tsx           # Formulaire de contact avec validation
+├── api/contact.ts               # Enregistrement Supabase + email Resend
+├── index.html                   # Meta SEO, Open Graph, JSON-LD, polices
 ├── public/
-│   ├── favicon.svg
-│   ├── og-image.svg
-│   ├── slack.svg / teams.svg / openai.svg  # Logos locaux (fallback CDN)
-└── dist/                   # Build de production (gitignored)
+│   ├── logos/                   # Logos des outils (SVG locaux)
+│   ├── mathieu-960.webp/.jpg    # Portrait optimisé
+│   ├── og-image.png             # Image de partage 1200×630
+│   ├── favicon.svg, robots.txt, sitemap.xml
+└── src/
+    ├── App.tsx                  # Ordre des sections, config Framer Motion
+    ├── index.css                # Design tokens + classes composants
+    ├── data/                    # tools.ts (registre des outils), cases.ts (cas et scénarios)
+    └── components/
+        ├── fx/                  # Effets réutilisables (Reveal, BlurText, RotatingText, …)
+        ├── ui.tsx               # Button, SectionHeading, ToolIcon
+        ├── Logo.tsx, Dialog.tsx, Navbar.tsx, Footer.tsx
+        ├── hero/                # HeroSection + FlowVisual
+        ├── realisations/        # RealisationsSection + WorkflowStepper
+        └── IntegrationsSection, UseCasesSection, OfferSection, StudioSection, FAQSection, ContactSection
 ```
 
 ## Design system
 
-### Couleurs (tailwind.config.js)
+Direction artistique sombre et technologique : fond bleu-noir, surfaces quasi noires, texte blanc cassé, deux accents électriques (violet `#8B7BFF`, cyan `#4CD7F6`), grilles techniques, bordures en dégradé et halos discrets.
 
-| Token | Valeur | Usage |
-|-------|--------|-------|
-| `bg` | `#F5F1EA` | Fond principal (ivoire chaud) |
-| `text` | `#111111` | Texte principal |
-| `accent` | `#9A5A2C` | Brun chaud — CTA, highlights |
-| `warm` | `#B8843D` | Or — variante accent |
-| `success` | `#44624A` | Vert sauge — confirmations |
-| `card` | `rgba(255,255,255,0.72)` | Fond de cartes |
-
-### Typographie
-
-- **Titres** : Source Serif 4 (`.font-heading`)
-- **Corps** : Manrope (défaut)
-- **Mono** : IBM Plex Mono (`.font-mono`)
-
-### Patterns CSS custom (index.css)
-
-- `.panel-shell` / `.panel-core` — Cartes imbriquées avec glassmorphism
-- `.surface-card` — Gradient backdrop + inset highlight
-- `.kicker` — Label majuscule 0.72rem, tracking 0.18em
-- `.soft-underline` — Soulignement décoratif custom
-- `.bg-noise` — Texture bruit de fond
-- `.radial-glow` — Effet de lueur radiale
+- **Tokens** : variables CSS dans `src/index.css`, exposées à Tailwind (`bg`, `bg-raised`, `surface`, `fg`, `fg-muted`, `fg-subtle`, `accent`, `accent-2`, `success`, `danger`, `line`…).
+- **Typographie** : Geist (texte et titres), Geist Mono (labels, données, statuts).
+- **Contrastes** : tous les couples texte/fond ≥ 4,5:1 (texte secondaire 8:1).
 
 ## Sections (ordre de la page)
 
-1. **Navbar** — Sticky, logo, liens ancres, menu mobile
-2. **HeroSection** — Titre principal, sous-titre, 2 CTA, WorkflowVisual
-3. **StackProofSection** — Grille bento de 12 intégrations
-4. **ProblemSection** — 4 frictions → solution
-5. **OffersSection** — offre unique (déploiement accompagné + prise en main)
-6. **PrototypesSection** — 3 cas concrets avec avant/après
-7. **AboutSection** — Positionnement + process en 4 étapes
-8. **FAQSection** — 6 questions/réponses accordéon
-9. **FinalCTA** — Formulaire de contact (validation client-side)
+1. **Navbar** : transparente puis en verre dépoli au scroll, section active soulignée, menu mobile plein écran.
+2. **Hero** : titre à mot tournant, 2 CTA, preuves chiffrées, visualisation interactive d'un workflow (3 scénarios, journal d'exécution).
+3. **Intégrations** : 12 outils reliés à un hub d'orchestration par des faisceaux animés.
+4. **Usages** : 4 tâches répétitives en onglets, schéma avant → automatisation → résultat.
+5. **Réalisations** : cas client (remontées sécurité) avec workflow et métriques, 3 scénarios types en modale, CTA.
+6. **Offre** : cycle Identifier → Construire → Tester → Déployer → Accompagner, volets Mise en place et Maintenance continue.
+7. **Studio** : fondateur, parcours, principes de travail.
+8. **FAQ** : 6 questions en accordéon.
+9. **Contact** : formulaire validé côté client, envoyé à `/api/contact`.
 
-## Animations
+## Animations et performance
 
-Toutes les animations respectent `prefers-reduced-motion`.
-
-- **FadeUp** — Apparition au scroll (IntersectionObserver via Framer Motion)
-- **WordsPullUp** — Animation mot par mot avec support highlight
-- **StaggerContainer** — Décalage des enfants
-- **WorkflowVisual** — Auto-cycle toutes les 3.6s, 2 workflows × 5 étapes
-
-## Formulaire de contact (FinalCTA)
-
-- Champs : Nom (requis), Email (requis), Société, Besoin (dropdown), Message (requis, min 20 chars)
-- Validation client-side avec messages d'erreur accessibles (aria-invalid, aria-describedby)
-- Soumission simulée avec délai de 900ms + état succès
-- Pas de backend actuel — à connecter (Netlify Forms, Formspree, etc.)
+- Effets inspirés de React Bits, réimplémentés en Framer Motion et CSS (aucune dépendance ajoutée, aucun canvas ni WebGL).
+- Animations en `transform` / `opacity` ; suivi du curseur via variables CSS (pas de re-render React).
+- Lectures automatiques en pause hors écran et au survol.
+- `prefers-reduced-motion` respecté partout.
+- Mesures locales du build : LCP ≈ 0,8 s (desktop), ≈ 1,5 s (mobile, CPU ×4), CLS ≈ 0.
 
 ## Accessibilité
 
-- HTML sémantique (nav, main, article, section)
-- Lien "skip to content" en haut de page
-- ARIA sur le formulaire et le menu mobile
-- Focus rings visibles
-- Contraste couleurs conforme WCAG
+HTML sémantique, lien d'évitement, focus visibles, onglets ARIA navigables au clavier, accordéon `aria-expanded`, modale avec focus piégé et restauré, textes alternatifs, animations décoratives masquées aux lecteurs d'écran.
 
 ## Déploiement
 
-Le build produit des assets statiques dans `dist/`. Compatible avec tout hébergeur statique : Vercel, Netlify, GitHub Pages, etc.
-
-```bash
-npm run build
-# Déployer le contenu de dist/
-```
+Déployé sur Vercel (build statique `dist/` + fonction `api/contact.ts`).
