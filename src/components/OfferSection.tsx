@@ -8,35 +8,32 @@ import { Button, SectionHeading } from "./ui";
 const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   {
     title: "Audit",
-    description:
-      "45 minutes d'audit des outils et des cas d'automatisation. Nous regardons vos outils et les tâches qui vous freinent : ce qui prend du temps, où vivent vos informations, qui ressaisit quoi. Nous ne vendons aucune solution pendant ce rendez-vous.",
+    description: "45 minutes pour repérer les tâches qui vous coûtent du temps. Sans démarche commerciale.",
     icon: Search,
   },
   {
     title: "Proposition de solution",
-    description:
-      "Sous 24 h. Un document unique : la solution proposée, ce qu'elle rapporte ou évite sur l'année (temps rendu, erreurs et doublons évités, chiffre d'affaires qui ne dort plus, coût de l'inaction), ainsi que le montant forfaitaire.",
+    description: "Sous 24 h : la solution, ses gains sur l'année et un prix forfaitaire.",
     icon: FileText,
   },
   {
     title: "Validation",
-    description: "On relit la proposition, on ajuste le périmètre et le planning.",
+    description: "Nous ajustons ensemble le périmètre et le planning.",
     icon: CircleCheck,
   },
   {
     title: "Production",
-    description:
-      "Nous construisons la solution : automatisations, branchements entre vos outils, interface de saisie. Vous voyez le résultat au fur et à mesure.",
+    description: "Nous construisons la solution, vous suivez l'avancement.",
     icon: Hammer,
   },
   {
     title: "Déploiement",
-    description: "Mise en service des solutions.",
+    description: "Mise en service sur vos outils réels.",
     icon: Rocket,
   },
   {
     title: "Accompagnement",
-    description: "Le fonctionnement est documenté et nous vous accompagnons dans la prise en main.",
+    description: "Documentation et prise en main par votre équipe.",
     icon: LifeBuoy,
   },
 ];
@@ -89,8 +86,8 @@ export function OfferSection() {
         <SectionHeading
           index="04"
           eyebrow="La méthode"
-          title="Un partenaire, de l'audit à la mise en service."
-          highlight={["service."]}
+          title="Un partenaire, de l'audit au déploiement."
+          highlight={["déploiement."]}
           subtitle="Nous livrons des solutions d'automatisation clés en main. Le fonctionnement est documenté et votre équipe est accompagnée dans la prise en main."
         />
 
