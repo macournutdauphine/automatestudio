@@ -1,5 +1,5 @@
 import { m, useScroll, useSpring } from "framer-motion";
-import { Check, CircleCheck, FileText, Hammer, LifeBuoy, Rocket, Search, ShieldCheck, TrendingUp, Wrench, type LucideIcon } from "lucide-react";
+import { Check, FileText, Hammer, LifeBuoy, Rocket, Search, ShieldCheck, TrendingUp, Wrench, type LucideIcon } from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "./fx/Reveal";
 import { SpotlightCard } from "./fx/Spotlight";
@@ -8,18 +8,13 @@ import { Button, SectionHeading } from "./ui";
 const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   {
     title: "Audit",
-    description: "45 minutes pour repérer les tâches qui vous coûtent du temps. Sans démarche commerciale.",
+    description: "45 minutes pour repérer les tâches qui vous coûtent votre productivité.",
     icon: Search,
   },
   {
     title: "Proposition de solution",
-    description: "Sous 24 h : la solution, ses gains sur l'année et un prix forfaitaire.",
+    description: "On revient vers vous sous 24h avec une solution et une proposition commerciale.",
     icon: FileText,
-  },
-  {
-    title: "Validation",
-    description: "Nous ajustons ensemble le périmètre et le planning.",
-    icon: CircleCheck,
   },
   {
     title: "Production",
@@ -28,7 +23,7 @@ const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   },
   {
     title: "Déploiement",
-    description: "Mise en service sur vos outils réels.",
+    description: "Mise en service sur vos outils et mesures de sécurité.",
     icon: Rocket,
   },
   {
@@ -92,7 +87,7 @@ export function OfferSection() {
         />
 
         {/* Cycle de vie */}
-        <ol ref={trackRef} className="relative mt-16 grid gap-8 pl-10 md:grid-cols-6 md:gap-6 md:pl-0 md:pt-12">
+        <ol ref={trackRef} className="relative mt-16 grid gap-8 pl-10 md:grid-cols-5 md:gap-6 md:pl-0 md:pt-12">
           <span aria-hidden="true" className="absolute bottom-2 left-[1.1rem] top-2 w-px bg-line md:bottom-auto md:left-0 md:right-0 md:top-[1.1rem] md:h-px md:w-auto" />
           <m.span
             aria-hidden="true"
