@@ -5,6 +5,8 @@ import { EASE_OUT } from "./Reveal";
 type RotatingTextProps = {
   words: string[];
   interval?: number;
+  /** Mot à afficher, piloté par le parent. Sans lui, la rotation est automatique. */
+  index?: number;
   className?: string;
 };
 
@@ -13,19 +15,20 @@ type RotatingTextProps = {
  * (inspiration React Bits « Rotating Text »). Décoratif : le texte
  * complet doit être fourni aux lecteurs d'écran par le parent.
  */
-export function RotatingText({ words, interval = 2600, className = "" }: RotatingTextProps) {
-  const [index, setIndex] = useState(0);
+export function RotatingText({ words, interval = 2600, index: controlledIndex, className = "" }: RotatingTextProps) {
+  const [ownIndex, setOwnIndex] = useState(0);
+  const controlled = controlledIndex !== undefined;
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (!inView) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % words.length), interval);
+    if (controlled || !inView) return;
+    const id = window.setInterval(() => setOwnIndex((i) => (i + 1) % words.length), interval);
     return () => window.clearInterval(id);
-  }, [inView, interval, words.length]);
+  }, [controlled, inView, interval, words.length]);
 
-  const word = words[index];
+  const word = words[controlled ? controlledIndex : ownIndex];
 
   return (
     <span ref={ref} aria-hidden="true" className={`relative inline-flex overflow-hidden pb-[0.12em] ${className}`}>

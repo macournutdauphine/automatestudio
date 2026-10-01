@@ -1,13 +1,13 @@
-import { m, useReducedMotion } from "framer-motion";
+import { m, useInView, useReducedMotion } from "framer-motion";
+import { useRef, useState } from "react";
 import { Backdrop } from "../fx/Backdrop";
 import { Magnetic } from "../fx/Magnetic";
 import { RotatingText } from "../fx/RotatingText";
 import { EASE_OUT } from "../fx/Reveal";
 import { Button } from "../ui";
-import { FlowVisual } from "./FlowVisual";
+import { FlowVisual, SCENARIOS } from "./FlowVisual";
 
-
-const targets = ["vos relances.", "votre CRM.", "vos factures.", "votre reporting.", "vos demandes."];
+const targets = SCENARIOS.map((scenario) => scenario.word);
 
 const proof = [
   { value: "~134 h/an", label: "libérées sur une mission livrée" },
@@ -17,6 +17,10 @@ const proof = [
 
 export function HeroSection() {
   const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const inView = useInView(sectionRef);
+  // Le titre et le schéma partagent le même scénario : le schéma rythme le cycle.
+  const [scenarioIndex, setScenarioIndex] = useState(0);
 
   const enter = (delay: number) => ({
     initial: reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18, filter: "blur(8px)" },
@@ -25,7 +29,7 @@ export function HeroSection() {
   });
 
   return (
-    <section id="hero" className="relative isolate overflow-hidden pb-16 pt-28 sm:pt-32 lg:min-h-[100svh] lg:pb-24 lg:pt-36">
+    <section ref={sectionRef} id="hero" className="relative isolate overflow-hidden pb-16 pt-28 sm:pt-32 lg:min-h-[100svh] lg:pb-24 lg:pt-36">
       <Backdrop />
 
       <div className="container-x relative grid grid-cols-[minmax(0,1fr)] items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:gap-12">
@@ -43,7 +47,7 @@ export function HeroSection() {
               Automatisez
             </m.span>
             <m.span {...enter(0.16)} aria-hidden="true" className="block">
-              <RotatingText words={targets} />
+              <RotatingText words={targets} index={scenarioIndex} />
             </m.span>
           </h1>
 
@@ -80,7 +84,7 @@ export function HeroSection() {
           transition={{ duration: 1.1, delay: 0.25, ease: EASE_OUT }}
           className="relative mx-auto w-full max-w-[640px] lg:max-w-none"
         >
-          <FlowVisual />
+          <FlowVisual scenarioIndex={scenarioIndex} onScenarioChange={setScenarioIndex} playing={inView} />
         </m.div>
       </div>
     </section>

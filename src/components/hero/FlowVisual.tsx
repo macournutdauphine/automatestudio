@@ -1,4 +1,4 @@
-import { AnimatePresence, m, useInView, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { Sparkles } from "lucide-react";
 import { ToolIcon } from "../ui";
@@ -31,6 +31,8 @@ type Step = { tool: ToolId; label: string; log: string };
 type Scenario = {
   id: string;
   name: string;
+  /** Mot affiché dans le titre du hero pendant ce scénario. */
+  word: string;
   trigger: Step;
   ai: string;
   aiLog: string;
@@ -38,23 +40,40 @@ type Scenario = {
   summary: string;
 };
 
-const SCENARIOS: Scenario[] = [
+/* Même ordre que le titre du hero : chaque scénario pilote le mot affiché. */
+export const SCENARIOS: Scenario[] = [
   {
-    id: "demande",
-    name: "Demande entrante",
-    trigger: { tool: "airtable", label: "Formulaire soumis", log: "nouvelle demande · Société Dumas" },
-    ai: "Qualifie et résume",
-    aiLog: "priorité haute · besoin : devis",
+    id: "relance",
+    name: "Relance client",
+    word: "vos relances.",
+    trigger: { tool: "googlesheets", label: "Échéance dépassée", log: "facture F-0412 · échue depuis 7 j" },
+    ai: "Rédige la relance",
+    aiLog: "ton cordial · premier rappel",
     actions: {
-      top: { tool: "hubspot", label: "Contact créé", log: "contact + transaction créés" },
-      mid: { tool: "slack", label: "Équipe alertée", log: "#commercial notifié" },
-      bottom: { tool: "gmail", label: "Réponse envoyée", log: "accusé de réception envoyé" },
+      top: { tool: "gmail", label: "Relance envoyée", log: "relance envoyée à compta@dumas.fr" },
+      mid: { tool: "hubspot", label: "Historique mis à jour", log: "activité ajoutée à la fiche client" },
+      bottom: { tool: "googlecalendar", label: "Suivi J+7 planifié", log: "point de suivi planifié au 08/10" },
     },
-    summary: "3 actions · 0 ressaisie",
+    summary: "relancée sans intervention",
+  },
+  {
+    id: "crm",
+    name: "CRM",
+    word: "votre CRM.",
+    trigger: { tool: "gmail", label: "Nouvel échange client", log: "email reçu · Société Martin" },
+    ai: "Identifie et enrichit",
+    aiLog: "contact reconnu · besoin : renouvellement",
+    actions: {
+      top: { tool: "hubspot", label: "Fiche mise à jour", log: "fiche Société Martin mise à jour" },
+      mid: { tool: "notion", label: "Note de compte ajoutée", log: "note de compte ajoutée" },
+      bottom: { tool: "slack", label: "Commercial informé", log: "message envoyé au commercial" },
+    },
+    summary: "CRM à jour · 0 ressaisie",
   },
   {
     id: "facture",
     name: "Facture fournisseur",
+    word: "vos factures.",
     trigger: { tool: "gmail", label: "Facture reçue", log: "pièce jointe détectée · PDF" },
     ai: "Extrait les données",
     aiLog: "montant TTC et échéance extraits",
@@ -68,6 +87,7 @@ const SCENARIOS: Scenario[] = [
   {
     id: "reporting",
     name: "Reporting hebdo",
+    word: "votre reporting.",
     trigger: { tool: "n8n", label: "Lundi 08:00", log: "déclenchement planifié" },
     ai: "Synthétise la semaine",
     aiLog: "12 indicateurs consolidés",
@@ -78,6 +98,20 @@ const SCENARIOS: Scenario[] = [
     },
     summary: "prêt avant le point d'équipe",
   },
+  {
+    id: "demande",
+    name: "Demande entrante",
+    word: "vos demandes.",
+    trigger: { tool: "airtable", label: "Formulaire soumis", log: "nouvelle demande · Société Dumas" },
+    ai: "Qualifie et résume",
+    aiLog: "priorité haute · besoin : devis",
+    actions: {
+      top: { tool: "hubspot", label: "Contact créé", log: "contact + transaction créés" },
+      mid: { tool: "slack", label: "Équipe alertée", log: "#commercial notifié" },
+      bottom: { tool: "gmail", label: "Réponse envoyée", log: "accusé de réception envoyé" },
+    },
+    summary: "3 actions · 0 ressaisie",
+  },
 ];
 
 type LogLine = { id: number; source: string; text: string; tone: "trigger" | "ai" | "action" | "done" };
@@ -87,13 +121,17 @@ const PHASES = [500, 900, 1100, 1400, 2400];
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
-export function FlowVisual() {
-  const containerRef = useRef<HTMLDivElement>(null);
+type FlowVisualProps = {
+  scenarioIndex: number;
+  onScenarioChange: (index: number) => void;
+  /** Faux quand le hero est hors écran : l'animation se met en pause. */
+  playing: boolean;
+};
+
+export function FlowVisual({ scenarioIndex, onScenarioChange, playing }: FlowVisualProps) {
   const tiltRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { margin: "-10% 0px" });
   const reduceMotion = useReducedMotion();
 
-  const [scenarioIndex, setScenarioIndex] = useState(0);
   const [phase, setPhase] = useState(0);
   const [run, setRun] = useState(0);
   const [logs, setLogs] = useState<LogLine[]>([]);
@@ -104,18 +142,18 @@ export function FlowVisual() {
 
   // Enchaîne les phases de l'exécution, puis passe au scénario suivant.
   useEffect(() => {
-    if (!inView) return;
+    if (!playing) return;
     const id = window.setTimeout(() => {
       if (phase < PHASES.length - 1) {
         setPhase(phase + 1);
       } else {
         setPhase(0);
         setRun((r) => r + 1);
-        setScenarioIndex((i) => (i + 1) % SCENARIOS.length);
+        onScenarioChange((scenarioIndex + 1) % SCENARIOS.length);
       }
     }, PHASES[phase]);
     return () => window.clearTimeout(id);
-  }, [phase, inView]);
+  }, [phase, playing, scenarioIndex, onScenarioChange]);
 
   // Journal d'événements, alimenté à chaque phase.
   useEffect(() => {
@@ -146,7 +184,7 @@ export function FlowVisual() {
   }, [phase, scenario]);
 
   const selectScenario = (index: number) => {
-    setScenarioIndex(index);
+    onScenarioChange(index);
     setPhase(1);
     setRun((r) => r + 1);
   };
@@ -168,8 +206,8 @@ export function FlowVisual() {
     slot === "trigger" ? phase >= 1 : slot === "ai" ? phase >= 2 : phase >= 3;
 
   return (
-    <div ref={containerRef} className="relative" onPointerMove={handleTilt} onPointerLeave={resetTilt}>
-      <div aria-hidden="true" className="absolute -inset-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgb(var(--accent)/0.22),transparent)]" />
+    <div className="relative" onPointerMove={handleTilt} onPointerLeave={resetTilt}>
+      <div aria-hidden="true" className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgb(var(--accent)/0.22),transparent)]" />
 
       <div
         ref={tiltRef}
