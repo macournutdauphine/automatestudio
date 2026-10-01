@@ -27,12 +27,12 @@ const faqs = [
   {
     question: "Qu'est-ce qui change concrètement pour mes équipes ?",
     answer:
-      "Vos équipes n'ont plus à gérer la technique. L'automatisation tourne, son fonctionnement est documenté et je les accompagne dans la prise en main : elles se concentrent sur leur cœur de métier.",
+      "Vos équipes n'ont plus à gérer la technique. L'automatisation tourne, son fonctionnement est documenté et nous les accompagnons dans la prise en main : elles se concentrent sur leur cœur de métier.",
   },
   {
     question: "Combien ça coûte ?",
     answer:
-      "Le forfait dépend de votre situation : il est établi après l'audit et la proposition de solution. ROI garanti sans abonnement, ni frais caché. Parlons-en : laissez-moi vos coordonnées, je vous rappelle.",
+      "Le forfait dépend de votre situation : il est établi après l'audit et la proposition de solution. ROI garanti sans abonnement, ni frais caché. Parlons-en : laissez-nous vos coordonnées, nous vous rappelons.",
   },
   {
     question: "Où intervenez-vous ?",
@@ -52,7 +52,7 @@ export function FAQSection() {
           <SectionHeading
             index="06"
             eyebrow="Questions fréquentes"
-            title="Ce qu'on me demande avant de démarrer."
+            title="Ce qu'on nous demande avant de démarrer."
             highlight={["démarrer."]}
             subtitle="Une logique simple : déployer proprement, documenter, puis accompagner la prise en main."
           />
@@ -60,7 +60,7 @@ export function FAQSection() {
             <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl border border-line p-5 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-fg-muted">Une autre question ? Posez-la directement.</p>
               <Button href="#contact" variant="secondary" className="shrink-0">
-                Me contacter
+                Nous contacter
               </Button>
             </div>
           </Reveal>

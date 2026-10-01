@@ -70,12 +70,12 @@ export function StudioSection() {
             <Reveal delay={0.08}>
               <div className="panel p-6 sm:p-9">
                 <p className="text-lg leading-relaxed text-fg sm:text-xl">
-                  J'ai découvert l'automatisation lors d'une première mission terrain : un workflow opérationnel déployé sans
+                  Nous avons découvert l'automatisation lors d'une première mission terrain : un workflow opérationnel déployé sans
                   développeur.
                 </p>
                 <p className="mt-4 leading-relaxed text-fg-muted">
-                  J'y ai compris que le vrai gain vient autant de la mise en place que de la fiabilité du système dans le temps.
-                  Étudiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je travaille avec des équipes qui
+                  Nous y avons compris que le vrai gain vient autant de la mise en place que de la fiabilité du système dans le temps.
+                  Formés au management de l'innovation à Dauphine et aux Mines de Paris, nous travaillons avec des équipes qui
                   veulent des résultats mesurables, un discours net et un système qui continue de fonctionner.
                 </p>
                 <ul className="mt-6 flex flex-wrap gap-2">

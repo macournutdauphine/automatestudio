@@ -61,9 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <table style="border-collapse:collapse;width:100%">
           <tr><td style="padding:6px 0;font-weight:600;width:120px">Nom</td><td>${escapeHtml(name)}</td></tr>
           <tr><td style="padding:6px 0;font-weight:600">Email</td><td><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
-          <tr><td style="padding:6px 0;font-weight:600">Entreprise</td><td>${escapeHtml(company)}</td></tr>
-          <tr><td style="padding:6px 0;font-weight:600">Besoin</td><td>${need ? escapeHtml(need) : "—"}</td></tr>
-        </table>
+          <tr><td style="padding:6px 0;font-weight:600">Entreprise</td><td>${escapeHtml(company)}</td></tr>        </table>
         <hr style="margin:16px 0;border:none;border-top:1px solid #eee" />
         <p style="font-weight:600">Message :</p>
         <p style="white-space:pre-wrap;background:#f5f1ea;padding:12px 16px;border-radius:8px">${escapeHtml(message)}</p>

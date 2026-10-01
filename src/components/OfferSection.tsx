@@ -9,7 +9,7 @@ const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   {
     title: "Audit",
     description:
-      "45 minutes d'audit des outils et des cas d'automatisation. Je regarde vos outils et les tâches qui vous freinent : ce qui prend du temps, où vivent vos informations, qui ressaisit quoi. Je ne vends aucune solution pendant ce rendez-vous.",
+      "45 minutes d'audit des outils et des cas d'automatisation. Nous regardons vos outils et les tâches qui vous freinent : ce qui prend du temps, où vivent vos informations, qui ressaisit quoi. Nous ne vendons aucune solution pendant ce rendez-vous.",
     icon: Search,
   },
   {
@@ -26,7 +26,7 @@ const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   {
     title: "Production",
     description:
-      "Je construis la solution : automatisations, branchements entre vos outils, interface de saisie. Vous voyez le résultat au fur et à mesure.",
+      "Nous construisons la solution : automatisations, branchements entre vos outils, interface de saisie. Vous voyez le résultat au fur et à mesure.",
     icon: Hammer,
   },
   {
@@ -36,7 +36,7 @@ const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   },
   {
     title: "Accompagnement",
-    description: "Le fonctionnement est documenté et je vous accompagne dans la prise en main.",
+    description: "Le fonctionnement est documenté et nous vous accompagnons dans la prise en main.",
     icon: LifeBuoy,
   },
 ];
@@ -47,7 +47,7 @@ const offers = [
     icon: Wrench,
     title: "Mise en place",
     tagline: "Des solutions d'automatisation clés en main.",
-    description: "Je construis la solution sur votre cas concret et je la branche à vos outils réels.",
+    description: "Nous construisons la solution sur votre cas concret et nous la branchons à vos outils réels.",
     includes: [
       "Audit des outils et des cas d'automatisation",
       "Proposition de solution sous 24 h",
@@ -61,7 +61,7 @@ const offers = [
     icon: ShieldCheck,
     title: "Après la mission",
     tagline: "Des points de contrôle, puis des interventions à la demande.",
-    description: "Une fois la solution en service, on fait le point ensemble, et j'interviens quand vous en avez besoin.",
+    description: "Une fois la solution en service, on fait le point ensemble, et nous intervenons quand vous en avez besoin.",
     includes: [
       "Points de contrôle après la mise en service",
       "Interventions à la demande",
@@ -91,7 +91,7 @@ export function OfferSection() {
           eyebrow="La méthode"
           title="Un partenaire, de l'audit à la mise en service."
           highlight={["service."]}
-          subtitle="Je livre des solutions d'automatisation clés en main. Le fonctionnement est documenté et votre équipe est accompagnée dans la prise en main."
+          subtitle="Nous livrons des solutions d'automatisation clés en main. Le fonctionnement est documenté et votre équipe est accompagnée dans la prise en main."
         />
 
         {/* Cycle de vie */}

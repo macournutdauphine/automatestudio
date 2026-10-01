@@ -5,17 +5,7 @@ import { BlurText } from "./fx/BlurText";
 import { Reveal } from "./fx/Reveal";
 import { Button } from "./ui";
 
-const NEEDS = [
-  "Mise en place",
-  "Relances et suivi client",
-  "CRM et synchronisation",
-  "Reporting et synthèse",
-  "Qualification de leads",
-  "Génération de documents",
-  "Autre",
-];
-
-const EMPTY_FORM = { name: "", email: "", company: "", need: NEEDS[0], message: "" };
+const EMPTY_FORM = { name: "", email: "", company: "", message: "" };
 
 type FieldName = keyof typeof EMPTY_FORM;
 
@@ -74,7 +64,7 @@ export function ContactSection() {
         setSubmitted(true);
         setFormState(EMPTY_FORM);
       } else {
-        let message = "Une erreur est survenue. Écrivez-moi directement à mathieucournut@orange.fr.";
+        let message = "Une erreur est survenue. Écrivez-nous directement à mathieucournut@orange.fr.";
         try {
           const body = (await response.json()) as { code?: string };
           if (body.code === "VALIDATION_ERROR") message = "Certains champs sont invalides. Vérifiez que tous les champs sont bien remplis.";
@@ -106,7 +96,7 @@ export function ContactSection() {
               </p>
               <BlurText
                 as="h2"
-                text="Décrivez un cas précis. Je vous dis comment l'automatiser."
+                text="Décrivez un cas précis. Nous vous disons comment l'automatiser."
                 highlight={["l'automatiser."]}
                 className="mt-5 text-[2.1rem] font-semibold leading-[1.05] tracking-[-0.035em] text-fg sm:text-5xl"
               />
@@ -161,38 +151,21 @@ export function ContactSection() {
                   </Field>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <Field label="Entreprise" id="company" error={errors.company}>
-                    <input
-                      ref={companyRef}
-                      id="company"
-                      name="company"
-                      type="text"
-                      autoComplete="organization"
-                      value={formState.company}
-                      onChange={(event) => update("company", event.target.value)}
-                      className="field"
-                      placeholder="Nom de votre structure"
-                      aria-invalid={Boolean(errors.company)}
-                      aria-describedby={errors.company ? "company-error" : undefined}
-                    />
-                  </Field>
-                  <Field label="Besoin principal" id="need">
-                    <select
-                      id="need"
-                      name="need"
-                      value={formState.need}
-                      onChange={(event) => update("need", event.target.value)}
-                      className="field field-select"
-                    >
-                      {NEEDS.map((need) => (
-                        <option key={need} className="bg-surface text-fg">
-                          {need}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                </div>
+                <Field label="Entreprise" id="company" error={errors.company}>
+                  <input
+                    ref={companyRef}
+                    id="company"
+                    name="company"
+                    type="text"
+                    autoComplete="organization"
+                    value={formState.company}
+                    onChange={(event) => update("company", event.target.value)}
+                    className="field"
+                    placeholder="Nom de votre structure"
+                    aria-invalid={Boolean(errors.company)}
+                    aria-describedby={errors.company ? "company-error" : undefined}
+                  />
+                </Field>
 
                 <Field label="Message" id="message" error={errors.message}>
                   <textarea
@@ -203,16 +176,10 @@ export function ContactSection() {
                     value={formState.message}
                     onChange={(event) => update("message", event.target.value)}
                     className="field resize-y"
-                    placeholder="Expliquez la tâche répétitive et les outils utilisés."
+                    placeholder="Décrivez-nous vos besoins et nous reviendrons vers vous"
                     aria-invalid={Boolean(errors.message)}
-                    aria-describedby={errors.message ? "message-error" : "message-help"}
+                    aria-describedby={errors.message ? "message-error" : undefined}
                   />
-                  {!errors.message ? (
-                    <p id="message-help" className="mt-2 text-xs leading-relaxed text-fg-subtle">
-                      Quelques pistes : relances de prospects, reporting hebdomadaire, suivi CRM, préparation de documents ou reprise
-                      d'un flux existant.
-                    </p>
-                  ) : null}
                 </Field>
 
                 {errors.submit ? (
@@ -238,7 +205,7 @@ export function ContactSection() {
                   {submitted ? (
                     <p className="flex items-start gap-3 rounded-xl border border-success/30 bg-success/10 px-4 py-3 text-sm text-fg" role="status">
                       <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                      Message envoyé. Je reviens vers vous avec une première lecture du besoin et un format d'accompagnement clair.
+                      Message envoyé. Nous revenons vers vous avec une première lecture du besoin et un format d'accompagnement clair.
                     </p>
                   ) : null}
                 </div>
