@@ -26,7 +26,7 @@ src/
 ├── index.css             # Design tokens (variables CSS) + classes composants
 ├── data/
 │   ├── tools.ts          # Registre des outils (nom, logo local, catégorie)
-│   └── cases.ts          # Cas client Keprea + 3 scénarios types
+│   └── cases.ts          # 4 missions livrées : Keprea (nommée) + 3 missions non nommées
 └── components/
     ├── ui.tsx            # Button, SectionHeading, ToolIcon
     ├── Logo.tsx          # LogoMark + Logo
@@ -41,11 +41,12 @@ src/
     ├── StudioSection.tsx
     ├── FAQSection.tsx
     ├── ContactSection.tsx
+    ├── Legal.tsx         # Mentions légales + politique de confidentialité (affichées en modale depuis le footer)
     └── Footer.tsx
 ```
 
-Ordre de la page : Hero → Intégrations (01) → Usages (02) → Réalisations (03) → Offre (04) → Studio (05) → FAQ (06) → Contact (07) → Footer.
-Ancres : `#hero`, `#integrations`, `#usages`, `#realisations`, `#offre`, `#studio`, `#faq`, `#contact`.
+Ordre de la page : Hero → Intégrations (01) → Usages (02) → Réalisations (03) → Méthode (04) → Studio (05) → FAQ (06) → Contact (07) → Footer.
+Ancres : `#hero`, `#integrations`, `#usages`, `#realisations`, `#methode`, `#studio`, `#faq`, `#contact`.
 
 ## Design system
 
@@ -96,7 +97,8 @@ Inspirés de React Bits, réimplémentés sans dépendance (Framer Motion / CSS)
 ## Points d'attention
 
 - **Formulaire** : `ContactSection` POST `/api/contact` (Supabase + Resend). Variables d'env : `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `RESEND_API_KEY`, `NOTIFY_EMAIL`, `FROM_EMAIL`.
-- **Scénarios types** : les 3 cas hors Keprea sont présentés comme « scénario type / résultats attendus », pas comme des clients.
+- **Missions livrées** : les 4 cas sont étiquetés « Mission livrée ». Seule Keprea est nommée ; les 3 autres entreprises ne doivent pas l'être.
+- **Règles éditoriales** (mission du 2026-10-01) : aucun prix ni montant (hors équivalent € du cas Keprea), aucune durée de mission, aucun engagement de délai sauf « proposition de solution sous 24 h », pas de « maintenance », « abonnement » seulement dans « sans abonnement », rendez-vous d'entrée = « audit des outils et des cas d'automatisation » (45 minutes). Contact : mathieucournut@orange.fr.
 - **Image OG** : `public/og-image.png` (1200×630). À régénérer si le message du hero change.
 - **SEO** : meta, Open Graph, Twitter, JSON-LD `ProfessionalService`, `robots.txt`, `sitemap.xml`.
 - `tsc -b` réécrit `vite.config.js` / `vite.config.d.ts` (fins de ligne) : ne pas les commiter sans raison.

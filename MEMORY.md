@@ -30,9 +30,9 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 
 1. HeroSection (hero/) — titre à mot tournant + FlowVisual
 2. IntegrationsSection (01) — 12 outils reliés à un hub
-3. UseCasesSection (02) — 4 tâches répétitives, avant → automatisation → résultat
-4. RealisationsSection (03) — cas client Keprea + 3 scénarios types + CTA
-5. OfferSection (04) — cycle de vie 5 étapes + Mise en place / Maintenance continue
+3. UseCasesSection (02) — 3 cas d'usage (Produire / Analyser / Chercher du contenu), avant → automatisation → résultat
+4. RealisationsSection (03) — 4 missions livrées (Keprea nommée + 3 non nommées) + CTA
+5. OfferSection (04, ancre #methode) — méthode en 6 étapes + Mise en place / Après la mission
 6. StudioSection (05) — fondateur + principes
 7. FAQSection (06)
 8. ContactSection (07) — formulaire /api/contact
@@ -84,7 +84,9 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [ ] Audit accessibilité automatisé (Lighthouse, axe) — contrôles manuels clavier/contraste faits le 2026-09-30
 - [x] Image OG en PNG (2026-09-30)
 - [ ] Ajouter des témoignages clients quand disponibles
-- [ ] Ajouter d'autres cas clients réels dans data/cases.ts quand disponibles
+- [ ] Ajouter d'autres missions livrées dans data/cases.ts quand disponibles
+- [ ] Compléter la politique de confidentialité : durée de conservation et localisation des données ([À COMPLÉTER] dans Legal.tsx)
+- [ ] Régénérer public/og-image.png : son texte dit encore « Conçus, déployés et maintenus pour vous » (non modifié le 2026-10-01, consigne de ne pas toucher à l'image)
 - [x] Domaine et hébergement (automate-studio.fr sur Vercel)
 - [ ] Décider du sort de public/keprea.png (inutilisé)
 
