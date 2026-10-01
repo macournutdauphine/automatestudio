@@ -74,10 +74,17 @@ export function PrivacyPolicy() {
           Les données sont accessibles à Mathieu Cournut uniquement. Elles transitent par les prestataires techniques du site :
           Vercel (hébergement), Supabase (stockage des demandes) et Resend (envoi de la notification par email).
         </p>
-        <p>Localisation des données et encadrement des transferts hors Union européenne : [À COMPLÉTER]</p>
+        <p>
+          Le site est hébergé par Vercel. Les demandes envoyées par le formulaire sont stockées chez Supabase, sur des serveurs situés
+          en Irlande, dans l'Union européenne. La notification de chaque demande part par email via Resend, prestataire établi aux
+          États-Unis ; ce transfert hors Union européenne est encadré par les clauses contractuelles types de la Commission européenne.
+        </p>
       </Block>
       <Block title="Durée de conservation">
-        <p>[À COMPLÉTER]</p>
+        <p>
+          Les demandes reçues sont conservées trois ans à compter du dernier échange, puis supprimées. Si une mission est signée, les
+          informations sont conservées pendant la durée de la relation commerciale, puis trois ans après sa fin.
+        </p>
       </Block>
       <Block title="Vos droits">
         <p>
