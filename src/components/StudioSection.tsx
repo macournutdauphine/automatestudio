@@ -5,7 +5,7 @@ const principles = [
   { key: "outils", value: "Vos outils d'abord : on connecte l'existant avant de proposer du neuf." },
   { key: "ia", value: "L'IA seulement quand elle améliore le flux : résumer, qualifier, structurer une entrée." },
   { key: "doc", value: "Chaque flux est documenté : vous savez ce qui tourne, et pourquoi." },
-  { key: "run", value: "Surveillance et alertes d'erreur : un problème est détecté avant d'avoir un impact." },
+  { key: "suivi", value: "Après la mise en service : des points de contrôle, puis des interventions à la demande." },
 ];
 
 const credentials = ["Master management de l'innovation", "Université Paris Dauphine", "Mines Paris"];
@@ -70,14 +70,13 @@ export function StudioSection() {
             <Reveal delay={0.08}>
               <div className="panel p-6 sm:p-9">
                 <p className="text-lg leading-relaxed text-fg sm:text-xl">
-                  J'ai découvert l'automatisation lors d'une première mission terrain : un workflow opérationnel déployé en quelques
-                  jours, sans développeur ni budget technique.
+                  J'ai découvert l'automatisation lors d'une première mission terrain : un workflow opérationnel déployé sans
+                  développeur.
                 </p>
                 <p className="mt-4 leading-relaxed text-fg-muted">
                   J'y ai compris que le vrai gain vient autant de la mise en place que de la fiabilité du système dans le temps.
                   Étudiant en master de management de l'innovation à Dauphine et aux Mines de Paris, je travaille avec des équipes qui
-                  veulent des résultats mesurables, un discours net et un système qui continue de fonctionner. Cette approche
-                  légère me permet de proposer un travail soigné à des prix compétitifs.
+                  veulent des résultats mesurables, un discours net et un système qui continue de fonctionner.
                 </p>
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {credentials.map((item) => (

@@ -1,5 +1,5 @@
 import { m, useScroll, useSpring } from "framer-motion";
-import { Check, FlaskConical, Hammer, LifeBuoy, Rocket, Search, ShieldCheck, TrendingUp, Wrench, type LucideIcon } from "lucide-react";
+import { Check, CircleCheck, FileText, Hammer, LifeBuoy, Rocket, Search, ShieldCheck, TrendingUp, Wrench, type LucideIcon } from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "./fx/Reveal";
 import { SpotlightCard } from "./fx/Spotlight";
@@ -7,28 +7,36 @@ import { Button, SectionHeading } from "./ui";
 
 const lifecycle: { title: string; description: string; icon: LucideIcon }[] = [
   {
-    title: "Identifier",
-    description: "On part d'un besoin net, on cartographie vos flux et on repère ce qui mérite vraiment d'être automatisé.",
+    title: "Audit",
+    description:
+      "45 minutes d'audit des outils et des cas d'automatisation. Je regarde vos outils et les tâches qui vous freinent : ce qui prend du temps, où vivent vos informations, qui ressaisit quoi. Je ne vends aucune solution pendant ce rendez-vous.",
     icon: Search,
   },
   {
-    title: "Construire",
-    description: "Un premier flux utile sur un cas précis, avec une logique lisible et documentée.",
+    title: "Proposition de solution",
+    description:
+      "Sous 24 h. Un document unique : la solution proposée, ce qu'elle rapporte ou évite sur l'année (temps rendu, erreurs et doublons évités, chiffre d'affaires qui ne dort plus, coût de l'inaction), ainsi que le montant forfaitaire.",
+    icon: FileText,
+  },
+  {
+    title: "Validation",
+    description: "On relit la proposition, on ajuste le périmètre et le planning.",
+    icon: CircleCheck,
+  },
+  {
+    title: "Production",
+    description:
+      "Je construis la solution : automatisations, branchements entre vos outils, interface de saisie. Vous voyez le résultat au fur et à mesure.",
     icon: Hammer,
   },
   {
-    title: "Tester",
-    description: "Essais sur vos outils réels et sur les cas limites, avant toute mise en marche.",
-    icon: FlaskConical,
-  },
-  {
-    title: "Déployer",
-    description: "Mise en production, points sensibles sécurisés, équipes prévenues de ce qui change.",
+    title: "Déploiement",
+    description: "Mise en service des solutions.",
     icon: Rocket,
   },
   {
-    title: "Accompagner",
-    description: "Surveillance, corrections et évolutions : le système continue de tourner.",
+    title: "Accompagnement",
+    description: "Le fonctionnement est documenté et je vous accompagne dans la prise en main.",
     icon: LifeBuoy,
   },
 ];
@@ -38,27 +46,26 @@ const offers = [
     id: "build",
     icon: Wrench,
     title: "Mise en place",
-    tagline: "Un système qui fonctionne dès le premier jour.",
-    description: "Je construis l'automatisation sur votre cas concret et je la branche à vos outils réels.",
+    tagline: "Des solutions d'automatisation clés en main.",
+    description: "Je construis la solution sur votre cas concret et je la branche à vos outils réels.",
     includes: [
-      "Identification des besoins et cartographie des flux existants",
-      "Conception de l'automatisation sur un cas concret",
-      "Mise en place et tests sur vos outils réels",
-      "Documentation technique du système",
+      "Audit des outils et des cas d'automatisation",
+      "Proposition de solution sous 24 h",
+      "Production et mise en service sur vos outils réels",
+      "Fonctionnement documenté et prise en main accompagnée",
     ],
     featured: false,
   },
   {
     id: "run",
     icon: ShieldCheck,
-    title: "Maintenance continue",
-    tagline: "Vos automatisations restent opérationnelles.",
-    description: "Je surveille, corrige et fais évoluer vos flux dans la durée, sans que vous ayez à intervenir.",
+    title: "Après la mission",
+    tagline: "Des points de contrôle, puis des interventions à la demande.",
+    description: "Une fois la solution en service, on fait le point ensemble, et j'interviens quand vous en avez besoin.",
     includes: [
-      "Surveillance continue des flux, erreurs détectées avant impact",
-      "Mises à jour quand vos outils changent (API, webhooks, connecteurs)",
-      "Corrections incluses sans surcoût",
-      "Optimisations progressives au fil du temps",
+      "Points de contrôle après la mise en service",
+      "Interventions à la demande",
+      "Sans abonnement",
     ],
     featured: true,
   },
@@ -66,8 +73,8 @@ const offers = [
 
 const outcomes: { text: string; icon: LucideIcon }[] = [
   { text: "Du temps gagné et des équipes plus productives.", icon: TrendingUp },
-  { text: "Des automatisations maintenues en conditions opérationnelles, sans effort de votre côté.", icon: ShieldCheck },
-  { text: "Des flux qui restent fonctionnels, même quand vos outils évoluent.", icon: Check },
+  { text: "Un fonctionnement documenté et une équipe accompagnée dans la prise en main.", icon: ShieldCheck },
+  { text: "Des logiciels qui travaillent ensemble, sans ressaisie.", icon: Check },
 ];
 
 export function OfferSection() {
@@ -76,19 +83,19 @@ export function OfferSection() {
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
   return (
-    <section id="offre" className="relative scroll-mt-24 py-24 sm:py-32">
+    <section id="methode" className="relative scroll-mt-24 py-24 sm:py-32">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-line-strong to-transparent" />
       <div className="container-x">
         <SectionHeading
           index="04"
-          eyebrow="L'offre"
-          title="Un partenaire, du premier diagnostic à la maintenance."
-          highlight={["maintenance."]}
-          subtitle="Je construis le système, je le branche à vos outils et je le maintiens dans la durée. Vous n'avez pas à vous en occuper."
+          eyebrow="La méthode"
+          title="Un partenaire, de l'audit à la mise en service."
+          highlight={["service."]}
+          subtitle="Je livre des solutions d'automatisation clés en main. Le fonctionnement est documenté et votre équipe est accompagnée dans la prise en main."
         />
 
         {/* Cycle de vie */}
-        <ol ref={trackRef} className="relative mt-16 grid gap-8 pl-10 md:grid-cols-5 md:gap-6 md:pl-0 md:pt-12">
+        <ol ref={trackRef} className="relative mt-16 grid gap-8 pl-10 md:grid-cols-6 md:gap-6 md:pl-0 md:pt-12">
           <span aria-hidden="true" className="absolute bottom-2 left-[1.1rem] top-2 w-px bg-line md:bottom-auto md:left-0 md:right-0 md:top-[1.1rem] md:h-px md:w-auto" />
           <m.span
             aria-hidden="true"
@@ -137,7 +144,7 @@ export function OfferSection() {
                     >
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    {offer.featured ? <span className="chip border-accent/40 text-fg">Dans la durée</span> : <span className="chip">Démarrage</span>}
+                    {offer.featured ? <span className="chip border-accent/40 text-fg">Ensuite</span> : <span className="chip">Démarrage</span>}
                   </div>
                   <h3 className="relative mt-6 text-2xl font-semibold tracking-[-0.03em] text-fg sm:text-3xl">{offer.title}</h3>
                   <p className="relative mt-1 text-fg">{offer.tagline}</p>

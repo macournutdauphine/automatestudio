@@ -6,7 +6,7 @@ import { Reveal } from "./fx/Reveal";
 import { Button } from "./ui";
 
 const NEEDS = [
-  "Mise en place + maintenance",
+  "Mise en place",
   "Relances et suivi client",
   "CRM et synchronisation",
   "Reporting et synthèse",
@@ -20,8 +20,8 @@ const EMPTY_FORM = { name: "", email: "", company: "", need: NEEDS[0], message: 
 type FieldName = keyof typeof EMPTY_FORM;
 
 const promises = [
-  "Un système fiable, qui tourne sans intervention de votre part.",
-  "Une maintenance continue.",
+  "Une solution clés en main, au fonctionnement documenté.",
+  "Des points de contrôle, puis des interventions à la demande.",
   "Une proposition alignée sur vos outils réels.",
 ];
 
@@ -74,7 +74,7 @@ export function ContactSection() {
         setSubmitted(true);
         setFormState(EMPTY_FORM);
       } else {
-        let message = "Une erreur est survenue. Écrivez-moi directement à m.cournut@keprea.com.";
+        let message = "Une erreur est survenue. Écrivez-moi directement à mathieucournut@orange.fr.";
         try {
           const body = (await response.json()) as { code?: string };
           if (body.code === "VALIDATION_ERROR") message = "Certains champs sont invalides. Vérifiez que tous les champs sont bien remplis.";
@@ -112,8 +112,8 @@ export function ContactSection() {
               />
               <Reveal delay={0.15}>
                 <p className="mt-5 max-w-lg leading-relaxed text-fg-muted sm:text-lg">
-                  Le premier échange sert à comprendre vos tâches répétitives et vos outils actuels. On construit ensuite un système
-                  qui tourne sans que vous ayez à vous en occuper.
+                  Le premier rendez-vous est un audit des outils et des cas d'automatisation : 45 minutes pour comprendre vos tâches
+                  répétitives et vos outils actuels. Vous recevez ensuite une proposition de solution sous 24 h.
                 </p>
                 <ul className="mt-8 space-y-3">
                   {promises.map((item) => (
@@ -209,8 +209,8 @@ export function ContactSection() {
                   />
                   {!errors.message ? (
                     <p id="message-help" className="mt-2 text-xs leading-relaxed text-fg-subtle">
-                      Exemple : relances de prospects, reporting hebdomadaire, suivi CRM, préparation de documents ou reprise d'un flux
-                      existant.
+                      Quelques pistes : relances de prospects, reporting hebdomadaire, suivi CRM, préparation de documents ou reprise
+                      d'un flux existant.
                     </p>
                   ) : null}
                 </Field>

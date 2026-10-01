@@ -57,9 +57,9 @@ const SCENARIOS: Scenario[] = [
     name: "Facture fournisseur",
     trigger: { tool: "gmail", label: "Facture reçue", log: "pièce jointe détectée · PDF" },
     ai: "Extrait les données",
-    aiLog: "1 240,00 € TTC · échéance 30/10",
+    aiLog: "montant TTC et échéance extraits",
     actions: {
-      top: { tool: "googledrive", label: "PDF classé", log: "2026-10_Dumas_1240.pdf rangé" },
+      top: { tool: "googledrive", label: "PDF classé", log: "2026-10_Dumas.pdf rangé" },
       mid: { tool: "airtable", label: "Suivi mis à jour", log: "ligne ajoutée au suivi" },
       bottom: { tool: "googlecalendar", label: "Rappel planifié", log: "rappel paiement J-5" },
     },

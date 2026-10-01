@@ -16,24 +16,28 @@ const faqs = [
       "Oui. Les meilleurs premiers cas sont souvent simples : relances, tri de demandes, suivi client, mise à jour du CRM ou génération de documents.",
   },
   {
-    question: "Combien de temps prend une première mise en place ?",
-    answer:
-      "Cela dépend du besoin, de la clarté des processus et du nombre d'outils à relier. On démarre par un périmètre utile et maîtrisé : un premier flux tourne généralement en deux semaines.",
-  },
-  {
     question: "L'IA est-elle obligatoire dans chaque automatisation ?",
     answer:
-      "Non. On l'utilise seulement quand elle améliore vraiment le flux, par exemple pour résumer, qualifier ou structurer une entrée.",
+      "Non. On l'utilise seulement quand elle améliore vraiment le flux, notamment pour résumer, qualifier ou structurer une entrée.",
   },
   {
-    question: "Est-ce que vous maintenez le système après la mise en place ?",
-    answer:
-      "Oui. Une fois le flux déployé, je le surveille, je corrige les erreurs et je l'adapte quand vos outils changent. Vous n'avez pas à vous en occuper.",
+    question: "Et si quelque chose casse après la livraison ?",
+    answer: "Des points de contrôle, puis des interventions à la demande, sans abonnement.",
   },
   {
     question: "Qu'est-ce qui change concrètement pour mes équipes ?",
     answer:
-      "Vos équipes n'ont plus à gérer la technique. L'automatisation tourne, je la maintiens, elles se concentrent sur leur cœur de métier.",
+      "Vos équipes n'ont plus à gérer la technique. L'automatisation tourne, son fonctionnement est documenté et je les accompagne dans la prise en main : elles se concentrent sur leur cœur de métier.",
+  },
+  {
+    question: "Combien ça coûte ?",
+    answer:
+      "Le forfait dépend de votre situation : il est établi après l'audit et la proposition de solution. ROI garanti sans abonnement, ni frais caché. Parlons-en : laissez-moi vos coordonnées, je vous rappelle.",
+  },
+  {
+    question: "Où intervenez-vous ?",
+    answer:
+      "À Paris et en Île-de-France en priorité, avec rendez-vous sur place ou en visio possible, et partout ailleurs en France à distance.",
   },
 ];
 
@@ -50,7 +54,7 @@ export function FAQSection() {
             eyebrow="Questions fréquentes"
             title="Ce qu'on me demande avant de démarrer."
             highlight={["démarrer."]}
-            subtitle="Une logique simple : déployer proprement, puis maintenir ce qui fonctionne."
+            subtitle="Une logique simple : déployer proprement, documenter, puis accompagner la prise en main."
           />
           <Reveal delay={0.2}>
             <div className="mt-8 flex flex-col items-start gap-4 rounded-2xl border border-line p-5 sm:flex-row sm:items-center sm:justify-between">

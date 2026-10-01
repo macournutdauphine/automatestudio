@@ -10,9 +10,9 @@ import { FlowVisual } from "./FlowVisual";
 const targets = ["vos relances.", "votre CRM.", "vos factures.", "votre reporting.", "vos demandes."];
 
 const proof = [
-  { value: "~134 h/an", label: "libérées sur un cas client" },
-  { value: "2 semaines", label: "pour un premier flux en production" },
-  { value: "Suivi continu", label: "surveillance et corrections" },
+  { value: "~134 h/an", label: "libérées sur une mission livrée" },
+  { value: "4 missions", label: "livrées et suivies" },
+  { value: "Sous 24 h", label: "votre proposition de solution après l'audit" },
 ];
 
 export function HeroSection() {
@@ -48,7 +48,7 @@ export function HeroSection() {
           </h1>
 
           <m.p {...enter(0.26)} className="mt-7 max-w-xl text-[1.06rem] leading-relaxed text-fg-muted sm:text-lg">
-            Automate Studio conçoit, déploie et maintient des automatisations et des agents IA branchés sur vos outils.
+            Automate Studio conçoit, déploie et fait vivre des automatisations et des agents IA branchés sur vos outils.
             Vos logiciels travaillent ensemble, vos équipes se concentrent sur leur métier.
           </m.p>
 

@@ -25,7 +25,7 @@ export function RealisationsSection() {
           eyebrow="Réalisations"
           title="Des systèmes en production, pas des maquettes."
           highlight={["production,"]}
-          subtitle="Contexte réel, enchaînement documenté, résultat mesurable. Un cas client déployé, et trois scénarios types que l'on met en place régulièrement."
+          subtitle="Contexte réel, enchaînement documenté, résultat mesurable. 4 missions livrées et suivies."
         />
 
         <Reveal className="mt-14">
@@ -46,9 +46,9 @@ export function RealisationsSection() {
             <div className="relative">
               <p className="kicker">Prochaine étape</p>
               <p className="mt-3 text-2xl font-semibold tracking-[-0.03em] text-fg sm:text-3xl">
-                Votre premier flux opérationnel en deux semaines.
+                Commençons par l'audit de vos outils.
               </p>
-              <p className="mt-2 text-fg-muted">On part d'un cas précis chez vous, on le structure, on le branche à vos outils.</p>
+              <p className="mt-2 text-fg-muted">On part d'une tâche précise chez vous, on la structure, on la branche à vos outils.</p>
             </div>
             <Magnetic className="relative shrink-0">
               <Button href="#contact" size="lg">
@@ -75,7 +75,7 @@ export function RealisationsSection() {
   );
 }
 
-/* ─── Cas client mis en avant ────────────────────────────────── */
+/* ─── Mission livrée mise en avant ───────────────────────────── */
 
 function FeaturedCase({ onDetail }: { onDetail: () => void }) {
   return (
@@ -87,7 +87,7 @@ function FeaturedCase({ onDetail }: { onDetail: () => void }) {
           <div className="flex flex-wrap gap-2">
             <span className="chip border-success/30 text-success">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-success" />
-              Cas client
+              Mission livrée
             </span>
             {featuredCase.tags.map((tag) => (
               <span key={tag} className="chip">
@@ -169,23 +169,11 @@ function FeaturedDetail() {
       </div>
       <div className="rounded-2xl border border-line bg-white/[0.02] p-5">
         <p className="kicker">Détail des gains</p>
-        <ul className="mt-4 space-y-2">
-          {featuredCase.breakdown.map((row) => (
-            <li key={row.task} className="flex items-center gap-3 rounded-xl border border-line bg-bg px-4 py-3">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-fg">{row.task}</p>
-                <p className="mt-0.5 font-mono text-[0.7rem] text-fg-subtle">{row.calcul}</p>
-              </div>
-              <span className="shrink-0 rounded-full bg-accent/15 px-3 py-1 font-mono text-xs text-fg">{row.gain}</span>
-            </li>
-          ))}
-        </ul>
         <p className="mt-4 text-sm font-medium text-fg">
           Total : ~134 heures par an économisées · à 35 €/h chargé → <span className="text-gradient">~4 700 € par an</span>
         </p>
         <p className="mt-2 text-xs leading-relaxed text-fg-subtle">
-          Estimations fondées sur les volumes observés : 120 incidents déclarés par an, 10 min de saisie par déclaration. *1 h : temps
-          de rédaction manuelle d'un plan d'action mesuré en interne avant automatisation.
+          Estimations fondées sur les volumes observés : 120 incidents déclarés par an, 10 min de saisie par déclaration.
         </p>
       </div>
       <p className="rounded-2xl border border-accent/25 bg-accent/[0.07] p-5 text-sm leading-relaxed text-fg">
@@ -196,12 +184,12 @@ function FeaturedDetail() {
   );
 }
 
-/* ─── Scénarios types ────────────────────────────────────────── */
+/* ─── Autres missions livrées ────────────────────────────────── */
 
 function ScenarioCard({ scenario, onDetail }: { scenario: Scenario; onDetail: () => void }) {
   return (
     <SpotlightCard as="article" className="panel flex h-full flex-col p-6">
-      <p className="kicker">Scénario type</p>
+      <p className="kicker">Mission livrée</p>
       <h3 className="mt-3 text-xl font-semibold leading-snug tracking-[-0.02em] text-fg">{scenario.title}</h3>
       <p className="mt-1.5 text-sm text-fg-subtle">{scenario.profile}</p>
 
@@ -233,7 +221,7 @@ function ScenarioCard({ scenario, onDetail }: { scenario: Scenario; onDetail: ()
           onClick={onDetail}
           className="group inline-flex items-center gap-1.5 rounded-full text-sm font-medium text-fg transition-colors hover:text-accent-2"
         >
-          Voir le scénario
+          Voir la mission
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true" />
           <span className="sr-only"> : {scenario.title}</span>
         </button>
@@ -246,7 +234,7 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
   return (
     <div className="mt-4 space-y-6">
       <div className="flex flex-wrap gap-2">
-        <span className="chip">Scénario type</span>
+        <span className="chip">Mission livrée</span>
         <span className="chip">{scenario.profile}</span>
       </div>
       <div className="rounded-2xl border border-line bg-white/[0.02] p-5">
@@ -261,12 +249,12 @@ function ScenarioDetail({ scenario }: { scenario: Scenario }) {
           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
           Flux automatisé
         </p>
-        <WorkflowStepper steps={scenario.steps} label={`Étapes du scénario ${scenario.title}`} />
+        <WorkflowStepper steps={scenario.steps} label={`Étapes de la mission ${scenario.title}`} />
       </div>
       <div className="rounded-2xl border border-success/25 bg-success/[0.05] p-5">
         <p className="kicker flex items-center gap-2">
           <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-success" />
-          Résultats attendus
+          Résultats
         </p>
         <ul className="mt-4 space-y-2.5">
           {scenario.results.map((result) => (

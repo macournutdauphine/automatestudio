@@ -8,11 +8,11 @@ export type WorkflowStep = {
   tools: ToolId[];
 };
 
-/* ─── Cas client : Keprea ────────────────────────────────────── */
+/* ─── Mission livrée : Keprea ────────────────────────────────── */
 
 export const featuredCase = {
   title: "Automatisation des remontées sécurité sur site",
-  tags: ["Agritech", "20 employés", "Déployé en 2 semaines"],
+  tags: ["Keprea", "Agritech", "20 employés"],
   problem:
     "Les incidents de sécurité et les suggestions d'amélioration étaient remontés sur papier ou par mail : aucune traçabilité, aucun suivi des délais, aucune alerte. Chaque plan d'action était rédigé depuis zéro.",
   stack: ["airtable", "googleappsscript", "gmail", "slack", "googledocs", "googledrive"] as ToolId[],
@@ -21,10 +21,6 @@ export const featuredCase = {
     { prefix: "~", value: 4700, suffix: " €", label: "de valeur générée par an", note: "au coût chargé de 35 €/h" },
     { prefix: "< ", value: 1, suffix: " min", label: "délai d'alerte incident", note: "contre 2 à 4 h avant" },
     { prefix: "", value: 120, suffix: "", label: "déclarations tracées par an", note: "0 perte de donnée" },
-  ],
-  breakdown: [
-    { task: "Saisie et transmission d'un incident", calcul: "120 incidents × 10 min", gain: "~20 h/an" },
-    { task: "Rédaction du plan d'action", calcul: "120 occurrences × 1 h*", gain: "~120 h/an" },
   ],
   steps: [
     {
@@ -67,7 +63,7 @@ export const featuredCase = {
   ] satisfies WorkflowStep[],
 };
 
-/* ─── Scénarios types (résultats attendus) ───────────────────── */
+/* ─── Autres missions livrées (entreprises non nommées) ──────── */
 
 export type Scenario = {
   id: string;
@@ -178,7 +174,6 @@ export const scenarios: Scenario[] = [
       "8 à 10 h par mois de saisie éliminées, soit ~108 h par an",
       "Délai de traitement d'une facture : de 2 jours à moins de 10 minutes",
       "0 facture perdue ou dupliquée dans le suivi",
-      "~108 h × 35 €/h = ~3 780 € par an de valeur générée",
     ],
   },
   {
@@ -229,7 +224,7 @@ export const scenarios: Scenario[] = [
     results: [
       "80 quittances envoyées en moins de 2 min, contre 3 h 30 chaque mois",
       "Relances systématiques : aucun impayé oublié",
-      "~90 h par an économisées, soit ~3 150 € au coût chargé de 35 €/h",
+      "~90 h par an économisées",
       "Chaque fin de bail anticipée 3 mois à l'avance",
     ],
   },

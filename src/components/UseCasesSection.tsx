@@ -1,5 +1,5 @@
 import { AnimatePresence, m, useInView, useReducedMotion } from "framer-motion";
-import { ArrowDown, Check, Clock3, FileText, Filter, LineChart, Sparkles, X, type LucideIcon } from "lucide-react";
+import { ArrowDown, Check, FileSearch, PenLine, ScanText, Sparkles, X, type LucideIcon } from "lucide-react";
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { EASE_OUT, Reveal } from "./fx/Reveal";
 import { SectionHeading, ToolIcon } from "./ui";
@@ -17,40 +17,31 @@ type UseCase = {
 
 const useCases: UseCase[] = [
   {
-    id: "tri",
-    title: "Tri des demandes entrantes",
-    icon: Filter,
-    before: ["Lire chaque email ou formulaire", "Recopier les informations dans le CRM", "Transférer à la bonne personne"],
-    flow: ["gmail", "ai", "hubspot", "slack"],
-    after: "Les demandes sont classées, les bons champs extraits et la bonne personne alertée.",
-    result: "Plus aucune demande oubliée dans une boîte mail.",
+    id: "produire",
+    title: "Produire du contenu",
+    icon: PenLine,
+    before: ["Rédiger chaque document depuis zéro", "Recopier les mêmes informations d'un outil à l'autre", "Mettre en forme à la main"],
+    flow: ["airtable", "ai", "googledocs", "gmail"],
+    after: "Plans d'action, comptes rendus, rapports ou emails sont rédigés depuis vos données, prêts à relire.",
+    result: "Vous relisez et validez, au lieu de tout rédiger.",
   },
   {
-    id: "relances",
-    title: "Relances après devis",
-    icon: Clock3,
-    before: ["Tenir la liste des devis envoyés", "Vérifier qui n'a pas répondu", "Rédiger chaque relance à la main"],
-    flow: ["hubspot", "n8n", "gmail"],
-    after: "Les rappels partent selon le délai, le statut ou l'absence de réponse.",
-    result: "Chaque devis est relancé au bon moment, sans y penser.",
+    id: "analyser",
+    title: "Analyser du contenu",
+    icon: ScanText,
+    before: ["Lire chaque email, facture ou formulaire", "Repérer les informations utiles", "Les ressaisir dans vos outils"],
+    flow: ["gmail", "ai", "airtable", "slack"],
+    after: "Les documents entrants sont lus, les bonnes informations extraites et rangées, la bonne personne alertée.",
+    result: "Chaque document arrive trié, au bon endroit.",
   },
   {
-    id: "reporting",
-    title: "Rapport hebdo prêt à envoyer",
-    icon: LineChart,
-    before: ["Exporter les chiffres de chaque outil", "Les copier dans un tableur", "Mettre en forme avant le lundi"],
-    flow: ["airtable", "googlesheets", "ai", "gmail"],
-    after: "Les chiffres sont rassemblés depuis vos outils et mis en forme avant le point d'équipe.",
-    result: "Le rapport arrive tout seul le lundi matin.",
-  },
-  {
-    id: "cr",
-    title: "Compte rendu de réunion",
-    icon: FileText,
-    before: ["Relire ses notes", "Rédiger le compte rendu", "Lister et envoyer les actions"],
-    flow: ["googlecalendar", "ai", "notion", "slack"],
-    after: "Les notes sont structurées, résumées et transformées en compte rendu avec les actions déjà listées.",
-    result: "Chaque participant repart avec ses actions.",
+    id: "chercher",
+    title: "Chercher du contenu",
+    icon: FileSearch,
+    before: ["Fouiller dans plusieurs outils", "Retrouver les coordonnées ou l'historique d'un contact", "Croiser les informations à la main"],
+    flow: ["hubspot", "ai", "apollo", "slack"],
+    after: "Les informations sont recherchées dans vos outils et vos sources, croisées, puis remontées là où vous travaillez.",
+    result: "La bonne information, sans avoir à la chercher.",
   },
 ];
 
@@ -112,7 +103,7 @@ export function UseCasesSection() {
           >
             <div
               role="tablist"
-              aria-label="Exemples de tâches automatisables"
+              aria-label="Cas d'usage automatisables"
               className="-mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0 lg:flex-col lg:overflow-visible"
             >
               {useCases.map((item, index) => {
