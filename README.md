@@ -63,7 +63,7 @@ Direction artistique sombre et technologique : fond bleu-noir, surfaces quasi no
 1. **Navbar** : transparente puis en verre dépoli au scroll, section active soulignée, menu mobile plein écran.
 2. **Hero** : titre à mot tournant, 2 CTA, preuves chiffrées, visualisation interactive d'un workflow (3 scénarios, journal d'exécution).
 3. **Intégrations** : 12 outils reliés à un hub d'orchestration par des faisceaux animés.
-4. **Usages** : 3 cas d'usage en onglets (Produire, Analyser, Chercher du contenu), schéma avant → automatisation → résultat.
+4. **Usages** : 4 tâches répétitives en onglets, schéma avant → automatisation → résultat.
 5. **Réalisations** : 4 missions livrées — Keprea (remontées sécurité) avec workflow et métriques, 3 autres missions non nommées en modale, CTA.
 6. **Méthode** (`#methode`) : Audit → Proposition de solution → Validation → Production → Déploiement → Accompagnement, volets Mise en place et Après la mission.
 7. **Studio** : fondateur, parcours, principes de travail.

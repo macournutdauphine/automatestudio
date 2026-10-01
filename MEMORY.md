@@ -30,7 +30,7 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 
 1. HeroSection (hero/) — titre à mot tournant + FlowVisual
 2. IntegrationsSection (01) — 12 outils reliés à un hub
-3. UseCasesSection (02) — 3 cas d'usage (Produire / Analyser / Chercher du contenu), avant → automatisation → résultat
+3. UseCasesSection (02) — 4 tâches répétitives, avant → automatisation → résultat
 4. RealisationsSection (03) — 4 missions livrées (Keprea nommée + 3 non nommées) + CTA
 5. OfferSection (04, ancre #methode) — méthode en 6 étapes + Mise en place / Après la mission
 6. StudioSection (05) — fondateur + principes
