@@ -98,9 +98,9 @@ export function UseCasesSection() {
         <SectionHeading
           index="02"
           eyebrow="Là où vous perdez du temps"
-          title="Ne pas remplacer l'humain. Lui rendre son temps."
-          highlight={["temps."]}
-          subtitle="On retire les gestes répétitifs pour que vos équipes se concentrent sur ce qui demande du jugement, du contexte et de la relation."
+          title="Ne pas remplacer l'humain. Le rendre plus efficace."
+          highlight={["efficace."]}
+          subtitle="Moins de ressaisie, moins d'erreurs, la bonne information au bon moment : vos équipes produisent plus et mieux, et gardent leur énergie pour ce qui demande du jugement, du contexte et de la relation."
         />
 
         <Reveal className="mt-14">
