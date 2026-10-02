@@ -117,7 +117,7 @@ export const SCENARIOS: Scenario[] = [
 type LogLine = { id: number; source: string; text: string; tone: "trigger" | "ai" | "action" | "done" };
 
 /* Durée de chaque phase d'une exécution, en ms. */
-const PHASES = [500, 900, 1100, 1400, 2400];
+const PHASES = [360, 640, 790, 1000, 1710];
 
 const pct = (value: number, total: number) => `${(value / total) * 100}%`;
 
