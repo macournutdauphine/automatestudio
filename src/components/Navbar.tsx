@@ -1,206 +1,184 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Logo } from "./Logo";
 import { Button } from "./ui";
+import { EASE_OUT } from "./fx/Reveal";
 
 const links = [
-  { href: "#valeur", label: "Valeur" },
-  { href: "#objectif", label: "Intégrations" },
+  { href: "#integrations", label: "Intégrations" },
+  { href: "#usages", label: "Usages" },
   { href: "#realisations", label: "Réalisations" },
-  { href: "#offre", label: "Offre" },
+  { href: "#methode", label: "Méthode" },
+  { href: "#studio", label: "Studio" },
   { href: "#faq", label: "FAQ" },
-  { href: "#contact", label: "Contact" },
 ];
 
-export function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
+function useActiveSection() {
+  const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!menuOpen) {
-      return undefined;
-    }
+    const sections = links
+      .map((link) => document.querySelector<HTMLElement>(link.href))
+      .filter((el): el is HTMLElement => el !== null);
 
-    const originalOverflow = document.body.style.overflow;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
+export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const active = useActiveSection();
+  const reduceMotion = useReducedMotion();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const toggle = toggleRef.current;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    firstLinkRef.current?.focus();
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
     };
-
-    window.addEventListener("keydown", handleKeyDown);
-
+    window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+      toggle?.focus();
     };
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-4 z-30 pt-2">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="surface-card flex items-center justify-between rounded-full px-4 py-3 pl-3 pr-3 sm:px-5">
-          <a href="#hero" className="group flex items-center gap-3">
-            <span className="flex-shrink-0 rounded-[0.72rem] border border-black/[0.07] bg-black/[0.055] p-[2.5px]">
-              <span className="flex h-9 w-9 items-center justify-center rounded-[0.5rem] bg-[#9A5A2C] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_3px_10px_rgba(154,90,44,0.28)]">
-                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" aria-hidden="true">
-                  <circle cx="7" cy="5" r="1.85" fill="white" />
-                  <path d="M 13 5.5 Q 15 3 17 5.5" stroke="white" strokeWidth="1.7" fill="none" strokeLinecap="round" />
-                  <path
-                    d="M 2 12 C 5 19, 17 19, 20 12"
-                    stroke="white"
-                    strokeWidth="1.65"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                  <circle cx="2" cy="12" r="1.85" fill="white" />
-
-                  <circle cx="20" cy="12" r="1.85" fill="white" />
-                </svg>
-              </span>
-            </span>
-            <div className="leading-none">
-              <p className="font-heading text-lg font-semibold tracking-[-0.04em] text-[#111111]">
-                Automate Studio
-              </p>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#66615a]">
-                automatisation & maintenance
-              </p>
-            </div>
+    <header className="fixed inset-x-0 top-0 z-40 pt-[max(0.75rem,env(safe-area-inset-top))]">
+      <div className="container-x">
+        <div
+          className={[
+            "flex h-14 items-center justify-between rounded-full pl-3 pr-2 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out",
+            scrolled || menuOpen
+              ? "glass shadow-[0_20px_50px_-30px_rgba(0,0,0,0.9)]"
+              : "border border-transparent bg-transparent",
+          ].join(" ")}
+        >
+          <a href="#hero" className="rounded-full pr-2" aria-label="Automate Studio, retour en haut de page">
+            <Logo />
           </a>
 
-          <nav aria-label="Navigation principale" className="hidden items-center gap-5 lg:flex">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-[#66615a] transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-[#111111]"
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav aria-label="Navigation principale" className="hidden lg:block">
+            <ul className="flex items-center gap-1">
+              {links.map((link) => {
+                const isActive = active === link.href;
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      aria-current={isActive ? "true" : undefined}
+                      className={[
+                        "relative rounded-full px-3.5 py-2 text-sm transition-colors duration-300",
+                        isActive ? "text-fg" : "text-fg-muted hover:text-fg",
+                      ].join(" ")}
+                    >
+                      {link.label}
+                      <span
+                        aria-hidden="true"
+                        className={[
+                          "absolute inset-x-3.5 -bottom-px h-px bg-gradient-to-r from-accent to-accent-2 transition-opacity duration-500",
+                          isActive ? "opacity-100" : "opacity-0",
+                        ].join(" ")}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
 
-          <Button href="#contact" variant="primary" className="hidden px-5 text-[0.92rem] lg:inline-flex">
-            Parler de votre cas
-          </Button>
-
-          <button
-            type="button"
-            className="focus-ring group inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#111111] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] lg:hidden"
-            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setMenuOpen((current) => !current)}
-          >
-            <span className="relative h-4 w-4">
-              <span
-                className={[
-                  "absolute left-0 top-0 h-px w-4 origin-center bg-current transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
-                  menuOpen ? "translate-y-2 rotate-45" : "",
-                ].join(" ")}
-              />
-              <span
-                className={[
-                  "absolute left-0 top-2 h-px w-4 bg-current transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
-                  menuOpen ? "opacity-0" : "opacity-100",
-                ].join(" ")}
-              />
-              <span
-                className={[
-                  "absolute left-0 top-4 h-px w-4 origin-center bg-current transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
-                  menuOpen ? "-translate-y-2 -rotate-45" : "",
-                ].join(" ")}
-              />
-            </span>
-          </button>
+          <div className="flex items-center gap-2">
+            <Button href="#contact" className="hidden sm:inline-flex" size="md">
+              Parler de votre cas
+            </Button>
+            <button
+              ref={toggleRef}
+              type="button"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white/[0.04] text-fg transition-colors hover:bg-white/[0.08] lg:hidden"
+              aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <span className="relative block h-3 w-4" aria-hidden="true">
+                <span
+                  className={`absolute left-0 top-0 h-px w-4 bg-current transition-transform duration-500 ease-out ${menuOpen ? "translate-y-1.5 rotate-45" : ""}`}
+                />
+                <span
+                  className={`absolute left-0 top-3 h-px w-4 bg-current transition-transform duration-500 ease-out ${menuOpen ? "-translate-y-1.5 -rotate-45" : ""}`}
+                />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 
       <AnimatePresence>
         {menuOpen ? (
-          <motion.div
+          <m.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 bg-white/[0.82] backdrop-blur-3xl lg:hidden"
-            initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            className="fixed inset-0 -z-10 bg-bg/[0.92] pt-24 backdrop-blur-2xl lg:hidden"
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-            onClick={closeMenu}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <div className="mx-auto flex h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-              <motion.div
-                className="panel-shell w-full"
-                initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 18, scale: 0.985 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.99 }}
-                transition={{ duration: 0.62, ease: [0.32, 0.72, 0, 1] }}
-                onClick={(event) => event.stopPropagation()}
-              >
-                <div className="panel-core flex min-h-[calc(100dvh-2rem)] flex-col justify-between p-6 sm:p-8">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="kicker">Navigation</p>
-                      <p className="mt-2 font-heading text-2xl font-semibold tracking-[-0.04em] text-[#111111]">
-                        Explorer la page
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      className="focus-ring inline-flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-[#111111] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98]"
-                      aria-label="Fermer le menu"
-                      onClick={closeMenu}
-                    >
-                      <span className="relative h-4 w-4">
-                        <span className="absolute left-0 top-2 h-px w-4 origin-center rotate-45 bg-current" />
-                        <span className="absolute left-0 top-2 h-px w-4 origin-center -rotate-45 bg-current" />
-                      </span>
-                    </button>
-                  </div>
-
-                  <motion.nav
-                    aria-label="Navigation mobile"
-                    className="mt-10 grid gap-3"
-                    initial="hidden"
-                    animate="show"
-                    variants={{
-                      hidden: {},
-                      show: {
-                        transition: reduceMotion ? { duration: 0 } : { staggerChildren: 0.08, delayChildren: 0.06 },
-                      },
-                    }}
+            <nav aria-label="Navigation mobile" className="container-x flex h-full flex-col pb-10">
+              <ul className="grid gap-1">
+                {links.map((link, index) => (
+                  <m.li
+                    key={link.href}
+                    initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.04 + index * 0.04 }}
                   >
-                    {links.map((link, index) => (
-                      <motion.a
-                        key={link.href}
-                        href={link.href}
-                        onClick={closeMenu}
-                        className="flex items-center justify-between rounded-[1.35rem] border border-black/[0.08] bg-white px-4 py-4 text-lg font-semibold tracking-[-0.03em] text-[#111111]"
-                        initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.58, ease: [0.32, 0.72, 0, 1], delay: index * 0.04 }}
-                      >
-                        <span>{link.label}</span>
-                        <span className="text-sm text-[#66615a]">0{index + 1}</span>
-                      </motion.a>
-                    ))}
-                  </motion.nav>
-
-                  <div className="mt-10 grid gap-4">
-                    <Button href="#contact" variant="orange" className="w-full justify-center" onClick={closeMenu}>
-                      Parler de votre cas
-                    </Button>
-                    <p className="text-sm text-[#66615a]">
-                      Menu pensé pour une consultation rapide sur mobile.
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+                    <a
+                      ref={index === 0 ? firstLinkRef : undefined}
+                      href={link.href}
+                      onClick={closeMenu}
+                      className="flex items-baseline justify-between border-b border-line py-4 text-3xl font-semibold tracking-[-0.03em] text-fg"
+                    >
+                      {link.label}
+                      <span className="font-mono text-xs text-fg-subtle">0{index + 1}</span>
+                    </a>
+                  </m.li>
+                ))}
+              </ul>
+              <div className="mt-auto">
+                <Button href="#contact" size="lg" className="w-full" onClick={closeMenu}>
+                  Parler de votre cas
+                </Button>
+              </div>
+            </nav>
+          </m.div>
         ) : null}
       </AnimatePresence>
     </header>

@@ -1,113 +1,149 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
-import { ArrowRightIcon } from "./icons";
+import { ArrowRight } from "lucide-react";
+import { BlurText } from "./fx/BlurText";
+import { DecryptedText } from "./fx/DecryptedText";
+import { Reveal } from "./fx/Reveal";
+import { tools, type ToolId } from "@/data/tools";
+
+/* ─── Button ─────────────────────────────────────────────────── */
 
 type ButtonBaseProps = {
-  variant?: "primary" | "secondary" | "ghost" | "light" | "orange";
-  icon?: ReactNode;
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "md" | "lg";
+  /** Icône finale ; `null` pour aucune. Par défaut : flèche. */
+  icon?: ReactNode | null;
 };
 
-type ButtonAsButton = ButtonBaseProps &
-  ButtonHTMLAttributes<HTMLButtonElement> & {
-    href?: never;
-  };
-
-type ButtonAsLink = ButtonBaseProps &
-  AnchorHTMLAttributes<HTMLAnchorElement> & {
-    href: string;
-  };
-
+type ButtonAsButton = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement> & { href?: never };
+type ButtonAsLink = ButtonBaseProps & AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-export function Button({ variant = "primary", icon, className = "", children, ...props }: ButtonProps) {
-  const styles: Record<NonNullable<ButtonProps["variant"]>, string> = {
-    primary: "bg-[#111111] text-white hover:bg-[#1e1e1e]",
-    orange: "bg-[#9a5a2c] text-white hover:bg-[#7f471f]",
-    secondary: "border border-black/10 bg-white/72 text-[#111111] hover:bg-white",
-    ghost: "border border-transparent bg-transparent text-[#111111] hover:bg-black/5",
-    light: "bg-white text-[#111111] hover:bg-white/90",
-  };
+const variants: Record<NonNullable<ButtonBaseProps["variant"]>, string> = {
+  primary:
+    "bg-fg text-bg shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_10px_30px_-10px_rgb(var(--accent)/0.6)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2),0_14px_44px_-8px_rgb(var(--accent)/0.85)]",
+  secondary: "glass text-fg hover:border-line-strong hover:bg-white/[0.06]",
+  ghost: "text-fg-muted hover:text-fg",
+};
 
-  const sharedClassName = [
-    "group focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:translate-y-px active:scale-[0.985] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-60",
-    styles[variant],
+const sizes = {
+  md: "h-11 px-5 text-sm",
+  lg: "h-12 px-6 text-[0.95rem]",
+};
+
+export function Button({ variant = "primary", size = "md", icon, className = "", children, ...props }: ButtonProps) {
+  const classes = [
+    "group relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em]",
+    "transition-[transform,box-shadow,background-color,border-color,color] duration-300 ease-out active:scale-[0.97]",
+    "disabled:pointer-events-none disabled:opacity-60",
+    variants[variant],
+    sizes[size],
     className,
   ].join(" ");
+
+  const trailing = icon === undefined ? <ArrowRight className="h-4 w-4" aria-hidden="true" /> : icon;
 
   const content = (
     <>
       <span>{children}</span>
-      {icon === undefined ? (
-        variant === "primary" || variant === "orange" ? (
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px]">
-            <ArrowRightIcon className="h-4 w-4" />
-          </span>
-        ) : null
-      ) : (
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/5 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px]">
-          {icon}
-        </span>
-      )}
+      {trailing ? (
+        <span className="-mr-1 flex transition-transform duration-300 ease-out group-hover:translate-x-0.5">{trailing}</span>
+      ) : null}
     </>
   );
 
   if ("href" in props && props.href) {
-    const { href, ...anchorProps } = props;
-
     return (
-      <a {...anchorProps} href={href} className={sharedClassName}>
+      <a {...props} className={classes}>
         {content}
       </a>
     );
   }
 
   const buttonProps = props as ButtonHTMLAttributes<HTMLButtonElement>;
-
   return (
-    <button {...buttonProps} type={buttonProps.type ?? "button"} className={sharedClassName}>
+    <button {...buttonProps} type={buttonProps.type ?? "button"} className={classes}>
       {content}
     </button>
   );
 }
 
-type BadgeProps = {
-  children: ReactNode;
-  className?: string;
+/* ─── Section heading ────────────────────────────────────────── */
+
+type SectionHeadingProps = {
+  index: string;
+  eyebrow: string;
+  title: string;
+  highlight?: string[];
+  subtitle?: string;
+  align?: "left" | "center";
 };
 
-export function Pill({ children, className = "" }: BadgeProps) {
+export function SectionHeading({ index, eyebrow, title, highlight, subtitle, align = "left" }: SectionHeadingProps) {
+  const centered = align === "center";
   return (
-    <span className={["card-border inline-flex items-center rounded-full bg-white/70 px-4 py-2 text-sm text-[#5F5F5F]", className].join(" ")}>
-      {children}
-    </span>
+    <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
+      <p className={`kicker flex items-center gap-3 ${centered ? "justify-center" : ""}`}>
+        <span className="text-accent">{index}</span>
+        <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
+        <DecryptedText text={eyebrow} />
+      </p>
+      <BlurText
+        as="h2"
+        text={title}
+        highlight={highlight}
+        className="mt-5 text-[2.1rem] font-semibold leading-[1.05] tracking-[-0.035em] text-fg sm:text-5xl lg:text-[3.4rem]"
+      />
+      {subtitle ? (
+        <Reveal delay={0.15}>
+          <p
+            className={`mt-5 text-base leading-relaxed text-fg-muted sm:text-lg ${centered ? "mx-auto max-w-2xl" : "max-w-2xl"}`}
+          >
+            {subtitle}
+          </p>
+        </Reveal>
+      ) : null}
+    </div>
   );
 }
 
-export function SectionHeading({
-  title,
-  subtitle,
-  eyebrow,
-  dark = false,
-}: {
-  title: string;
-  subtitle?: string;
-  eyebrow?: string;
-  dark?: boolean;
-}) {
+/* ─── Tool icon ──────────────────────────────────────────────── */
+
+type ToolIconProps = {
+  id: ToolId;
+  size?: "sm" | "md" | "lg";
+  className?: string;
+  /** Affiche le nom en infobulle native. */
+  withTitle?: boolean;
+};
+
+const iconSizes = {
+  sm: { box: "h-7 w-7 rounded-lg", img: "h-3.5 w-3.5", text: "text-[0.6rem]" },
+  md: { box: "h-10 w-10 rounded-xl", img: "h-5 w-5", text: "text-xs" },
+  lg: { box: "h-14 w-14 rounded-2xl", img: "h-7 w-7", text: "text-sm" },
+};
+
+/** Tuile d'application : logo sur surface sombre, ou monogramme à défaut. */
+export function ToolIcon({ id, size = "md", className = "", withTitle = true }: ToolIconProps) {
+  const tool = tools[id];
+  const s = iconSizes[size];
   return (
-    <div className="max-w-3xl">
-      {eyebrow ? (
-        <p className={["mb-4 kicker", dark ? "text-white/50" : "text-[#5F5F5F]"].join(" ")}>
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2 className={["text-balance font-heading text-[2.15rem] font-semibold tracking-[-0.05em] sm:text-4xl md:text-5xl", dark ? "text-white" : "text-[#111111]"].join(" ")}>
-        {title}
-      </h2>
-      {subtitle ? (
-        <p className={["mt-4 max-w-2xl text-pretty text-base leading-relaxed md:text-lg", dark ? "text-white/[0.68]" : "text-[#5F5F5F]"].join(" ")}>
-          {subtitle}
-        </p>
-      ) : null}
-    </div>
+    <span
+      title={withTitle ? tool.name : undefined}
+      className={`inline-flex shrink-0 items-center justify-center border border-line bg-surface-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${s.box} ${className}`}
+    >
+      {tool.logo ? (
+        <img
+          src={tool.logo}
+          alt={tool.name}
+          className={`${tool.wide ? "h-auto w-[82%]" : s.img} object-contain`}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span className={`font-mono font-medium text-fg ${s.text}`} role="img" aria-label={tool.name}>
+          {tool.name.slice(0, 2)}
+        </span>
+      )}
+    </span>
   );
 }
