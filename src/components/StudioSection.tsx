@@ -38,7 +38,7 @@ export function StudioSection() {
                   <source srcSet="/mathieu-960.webp" type="image/webp" />
                   <img
                     src="/mathieu-960.jpg"
-                    alt="Portrait de Mathieu Cournut, fondateur d'Automate Studio"
+                    alt="Portrait de Mathieu Cournut, consultant Automatisations & IA"
                     className="h-full w-full object-cover object-top"
                     loading="lazy"
                     decoding="async"
@@ -50,7 +50,7 @@ export function StudioSection() {
                 <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
                   <div>
                     <p className="text-lg font-semibold tracking-[-0.02em] text-fg">Mathieu Cournut</p>
-                    <p className="text-sm text-fg-muted">Fondateur d'Automate Studio</p>
+                    <p className="text-sm text-fg-muted">Consultant Automatisations & IA</p>
                   </div>
                   <a
                     href="https://www.linkedin.com/in/mathieucournut"
