@@ -65,9 +65,9 @@ Direction artistique sombre et technologique : fond bleu-noir, surfaces quasi no
 3. **Intégrations** : 12 outils reliés à un hub d'orchestration par des faisceaux animés.
 4. **Usages** : 4 tâches répétitives en onglets, schéma avant → automatisation → résultat.
 5. **Réalisations** : 4 missions livrées — Keprea (remontées sécurité) avec workflow et métriques, 3 autres missions non nommées en modale, CTA.
-6. **Méthode** (`#methode`) : Audit → Proposition de solution → Validation → Production → Déploiement → Accompagnement, volets Mise en place et Après la mission.
-7. **Studio** : fondateur, parcours, principes de travail.
-8. **FAQ** : 7 questions en accordéon.
+6. **Méthode** (`#methode`) : Audit → Proposition de solution → Production → Déploiement → Accompagnement, volets Mise en place et Après la mission.
+7. **Studio** : Mathieu Cournut (consultant Automatisations & IA), parcours, principes de travail.
+8. **FAQ** : questions en accordéon.
 9. **Contact** : formulaire validé côté client, envoyé à `/api/contact`.
 
 ## Animations et performance

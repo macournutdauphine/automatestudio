@@ -62,12 +62,12 @@ Tokens dans `src/index.css` (`:root`), exposés à Tailwind en canaux RGB → op
 | `fg-subtle` | `#82889E` | Labels, notes (≥ 5:1) |
 | `accent` | `#8B7BFF` | Violet électrique |
 | `accent-2` | `#4CD7F6` | Cyan |
-| `success` / `warning` / `danger` | `#3EE0A1` / `#F5C451` / `#FF7886` | États |
+| `success` / `danger` | `#3EE0A1` / `#FF7886` | États |
 | `line` / `line-strong` | blanc 8 % / 14 % | Bordures |
 
 Typographie : **Geist** (sans, défaut) et **Geist Mono** (`font-mono`, labels et données), chargées via Google Fonts dans `index.html`.
 
-Classes clés (`index.css`) : `.container-x`, `.panel`, `.glass`, `.gradient-border`, `.text-gradient`, `.kicker`, `.chip`, `.field`, `.field-select`, `.bg-grid`, `.bg-dots`, `.shiny-text`, `.spotlight` + `.spotlight-border`, masques `.mask-*`.
+Classes clés (`index.css`) : `.container-x`, `.panel`, `.glass`, `.gradient-border`, `.text-gradient`, `.kicker`, `.chip`, `.field`, `.bg-grid`, `.bg-dots`, `.shiny-text`, `.spotlight` + `.spotlight-border`, masques `.mask-fade-b` et `.mask-radial`.
 
 ## Effets (`components/fx/`)
 
@@ -99,9 +99,10 @@ Inspirés de React Bits, réimplémentés sans dépendance (Framer Motion / CSS)
 - **Formulaire** : `ContactSection` POST `/api/contact` (Supabase + Resend). Variables d'env : `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `RESEND_API_KEY`, `NOTIFY_EMAIL`, `FROM_EMAIL`.
 - **Missions livrées** : les 4 cas sont étiquetés « Mission livrée ». Seule Keprea est nommée ; les 3 autres entreprises ne doivent pas l'être.
 - **Règles éditoriales** (mission du 2026-10-01) : aucun prix ni montant (hors équivalent € du cas Keprea), aucune durée de mission, aucun engagement de délai sauf « proposition de solution sous 24 h », pas de « maintenance », « abonnement » seulement dans « sans abonnement », rendez-vous d'entrée = « audit des outils et des cas d'automatisation » (45 minutes). Contact : mathieucournut@orange.fr.
+- **Titre affiché** : « Consultant Automatisations & IA » (section Studio). Ne plus employer « Fondateur » dans le texte visible.
 - **Image OG** : `public/og-image.png` (1200×630). À régénérer si le message du hero change.
 - **SEO** : meta, Open Graph, Twitter, JSON-LD `ProfessionalService`, `robots.txt`, `sitemap.xml`.
-- `tsc -b` réécrit `vite.config.js` / `vite.config.d.ts` (fins de ligne) : ne pas les commiter sans raison.
+- `tsc -b` génère `vite.config.js` / `vite.config.d.ts` : ignorés par git (`.gitignore`), ne pas les commiter.
 - `dist/` et `*.tsbuildinfo` : générés, non versionnés.
 
 ## Fichiers de contexte du projet

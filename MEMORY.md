@@ -10,15 +10,8 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [2026-06-19] Stack — React 18 + TypeScript + Vite + Tailwind + Framer Motion retenu. Pas de Next.js (pas besoin de SSR pour un one-pager statique).
 - [2026-06-19] État — Pas de Redux/Zustand. useState local uniquement. Le site est essentiellement statique.
 - [2026-06-19] Animations — Framer Motion exclusivement (cohérence, respect prefers-reduced-motion intégré).
-- [2026-06-19] Icônes — Factory pattern custom dans icons.tsx pour contrôle total du style. Lucide en fallback.
-- [2026-06-19] Formulaire — Pas de backend configuré. Simulation 900ms. À connecter avant mise en prod.
-
-## Décisions de design
-
-- [2026-06-19] Palette — Ivoire chaud (#F5F1EA) + brun accent (#9A5A2C). Parti pris chaleur/artisanat vs blanc froid tech.
-- [2026-06-19] Typo — Source Serif 4 (titres) + Manrope (corps) + IBM Plex Mono (mono). Sérieux + modernité.
-- [2026-06-19] Cards — Pattern panel-shell/panel-core (glassmorphism léger) retenu pour hiérarchie visuelle.
-- [2026-06-19] Logos partenaires — Simple Icons CDN avec fallback local (public/) pour Slack, Teams, OpenAI.
+- [2026-06-19] Icônes — Lucide React (icons.tsx supprimé lors de la refonte 2026-09).
+- [2026-07-01] Formulaire — Route Vercel api/contact.ts : Supabase (stockage) + Resend (notification).
 
 ## Contexte métier
 
@@ -32,8 +25,8 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 2. IntegrationsSection (01) — 12 outils reliés à un hub
 3. UseCasesSection (02) — 4 tâches répétitives, avant → automatisation → résultat
 4. RealisationsSection (03) — 4 missions livrées (Keprea nommée + 3 non nommées) + CTA
-5. OfferSection (04, ancre #methode) — méthode en 6 étapes + Mise en place / Après la mission
-6. StudioSection (05) — fondateur + principes
+5. OfferSection (04, ancre #methode) — méthode en 5 étapes (Audit, Proposition de solution, Production, Déploiement, Accompagnement) + Mise en place / Après la mission
+6. StudioSection (05) — Mathieu Cournut (consultant Automatisations & IA) + principes
 7. FAQSection (06)
 8. ContactSection (07) — formulaire /api/contact
 9. Footer
@@ -50,17 +43,6 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [2026-09-30] Assets — Portrait redimensionné (WebP 45 Ko au lieu de JPEG 473 Ko), og-image.png 1200×630 (SVG non supporté par les réseaux), robots.txt + sitemap.xml.
 - [2026-09-30] Accessibilité — fg-subtle relevé à #82889E pour tenir ≥ 4,5:1 sur toutes les surfaces.
 
-## Décisions de structure (session 2026-06-19, historique)
-
-- [2026-06-19] OffersSection supprimée — jugée redondante avec AboutSection (même contenu : process en 3 vs 4 étapes). Sans prix, les cartes d'offres n'ont pas de valeur ajoutée.
-- [2026-06-19] PrototypesSection déplacée après ProblemSection (était après OffersSection).
-- [2026-06-19] ProblemSection : sous-titre déplacé sous le titre (n'est plus en colonne droite sur desktop).
-- [2026-06-19] Navbar : lien #offer supprimé, remplacé par #problem ("Pourquoi automatiser").
-- [2026-06-19] PrototypesSection — 3 cas génériques remplacés par 1 cas réel détaillé (remontées sécurité).
-- [2026-06-19] PrototypesSection — CTA ajouté en bas ("Votre premier flux opérationnel en deux semaines.").
-- [2026-06-19] WorkflowSteps — composant interactif remplaçant la grille statique de 6 cartes. Auto-cycle via onAnimationComplete (synchronisation parfaite ligne/cercle). STEP_DURATION = 5000ms.
-- [2026-06-19] WorkflowSteps — logos outils via Simple Icons CDN (airtable, slack, gmail, googledocs). Grayscale par défaut, couleur au hover.
-
 ## Détail technique — WorkflowStepper (realisations/WorkflowStepper.tsx)
 
 - Remplace WorkflowSteps. Une seule source de temps : la barre de progression CSS de l'étape active (`progress-fill`), dont `onAnimationEnd` passe à l'étape suivante. Plus de setInterval concurrent → nœuds et barre toujours synchronisés.
@@ -70,11 +52,14 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 ## État du projet
 
 - [2026-06-19] Site créé — Structure complète, toutes les sections implémentées.
-- [2026-06-19] Déploiement — Non configuré. Build statique compatible Vercel/Netlify/GitHub Pages.
-- [2026-06-19] Formulaire backend — Non connecté. Priorité avant toute mise en prod.
+- [2026-07-01] Déploiement — Vercel (build statique + fonction api/contact.ts), domaine automate-studio.fr.
+- [2026-07-01] Formulaire backend — Connecté (Supabase + Resend).
 - [2026-06-19] Analytics — Non configuré.
-- [2026-06-19] SEO — OG tags et meta description présents dans index.html. Pas de sitemap.
-- [2026-09-30] Refonte identité tech terminée sur la branche redesign/identite-tech (build OK, LCP local ≈ 0,8 s desktop).
+- [2026-10-06] SEO — meta, OG, JSON-LD, robots.txt et sitemap.xml présents.
+- [2026-09-30] Refonte identité tech terminée (build OK, LCP local ≈ 0,8 s desktop).
+- [2026-10-06] Refonte fusionnée dans main (ancien design ivoire/brun supprimé, FinalCTA retiré) ; correctifs contact/SEO de main conservés ; branche redesign/identite-tech obsolète.
+- [2026-10-06] Titre « Fondateur » remplacé par « Consultant Automatisations & IA » (StudioSection).
+- [2026-10-06] Nettoyage : classes CSS field-select/mask-fade-x, couleur warning, public/keprea.png, vite.config.js/.d.ts (générés, ignorés par git) supprimés.
 
 ## À faire / Backlog
 
@@ -85,10 +70,10 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [x] Image OG en PNG (2026-09-30)
 - [ ] Ajouter des témoignages clients quand disponibles
 - [ ] Ajouter d'autres missions livrées dans data/cases.ts quand disponibles
-- [ ] Compléter la politique de confidentialité : durée de conservation et localisation des données ([À COMPLÉTER] dans Legal.tsx)
+- [x] Politique de confidentialité complétée (durée de conservation, localisation des données)
 - [ ] Régénérer public/og-image.png : son texte dit encore « Conçus, déployés et maintenus pour vous » (non modifié le 2026-10-01, consigne de ne pas toucher à l'image)
 - [x] Domaine et hébergement (automate-studio.fr sur Vercel)
-- [ ] Décider du sort de public/keprea.png (inutilisé)
+- [x] public/keprea.png supprimé (inutilisé)
 
 ## Notes techniques
 
@@ -96,6 +81,7 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [2026-06-19] Fonts chargées via Google Fonts CDN dans index.html (pas via npm).
 - [2026-06-19] dist/ non versionné. Régénérer avec `npm run build`.
 - [2026-06-19] tsconfig.tsbuildinfo — cache TypeScript, ignorable.
+- [2026-10-06] package.json : vite ^5.4 et @vercel/node ^5.8 (build vérifié). Une ancienne modif locale non commitée (vite ^8, @vercel/node ^4) a été annulée.
 
 ---
 

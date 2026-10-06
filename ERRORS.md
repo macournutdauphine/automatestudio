@@ -11,7 +11,7 @@ Format :
 
 ---
 
-## [2026-06-19] WorkflowSteps — désynchronisation ligne / allumage du cercle
+## [2026-06-19] WorkflowSteps — désynchronisation ligne / allumage du cercle (composant remplacé depuis par WorkflowStepper)
 
 **Symptôme :** Dans la section PrototypesSection, la ligne colorée finit de parcourir le connecteur entre deux étapes, mais le cercle de destination ne s'allume pas exactement au même moment. Légère avance ou retard visible.
 
