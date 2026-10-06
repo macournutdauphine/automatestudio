@@ -69,6 +69,8 @@ export function ContactSection() {
           const body = (await response.json()) as { code?: string };
           if (body.code === "VALIDATION_ERROR") message = "Certains champs sont invalides. Vérifiez que tous les champs sont bien remplis.";
           else if (body.code === "DB_ERROR") message = "Impossible d'enregistrer votre demande pour le moment. Réessayez dans quelques instants.";
+          else if (body.code === "EMAIL_ERROR") message = "La demande a été enregistrée, mais l'email n'a pas pu être envoyé. Vérifiez la configuration Resend.";
+          else if (body.code === "MISSING_RESEND_KEY") message = "La configuration email est incomplète sur le serveur.";
         } catch {
           /* réponse non-JSON, on garde le message par défaut */
         }
