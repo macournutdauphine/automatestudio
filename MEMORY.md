@@ -57,7 +57,7 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [2026-06-19] Analytics — Non configuré.
 - [2026-10-06] SEO — meta, OG, JSON-LD, robots.txt et sitemap.xml présents.
 - [2026-09-30] Refonte identité tech terminée (build OK, LCP local ≈ 0,8 s desktop).
-- [2026-10-06] Refonte fusionnée dans main (ancien design ivoire/brun supprimé, FinalCTA retiré) ; correctifs contact/SEO de main conservés ; branche redesign/identite-tech obsolète.
+- [2026-10-06] Refonte fusionnée dans main (ancien design ivoire/brun supprimé, FinalCTA retiré) ; correctifs contact/SEO de main conservés ; branche redesign/identite-tech supprimée (locale et distante).
 - [2026-10-06] Titre « Fondateur » remplacé par « Consultant Automatisations & IA » (StudioSection).
 - [2026-10-06] Nettoyage : classes CSS field-select/mask-fade-x, couleur warning, public/keprea.png, vite.config.js/.d.ts (générés, ignorés par git) supprimés.
 
@@ -71,7 +71,7 @@ Format des entrées : `[YYYY-MM-DD] Catégorie — Fait / Décision`
 - [ ] Ajouter des témoignages clients quand disponibles
 - [ ] Ajouter d'autres missions livrées dans data/cases.ts quand disponibles
 - [x] Politique de confidentialité complétée (durée de conservation, localisation des données)
-- [ ] Régénérer public/og-image.png : son texte dit encore « Conçus, déployés et maintenus pour vous » (non modifié le 2026-10-01, consigne de ne pas toucher à l'image)
+- [x] public/og-image.png : sous-titre remplacé par « Conçus, déployés et accompagnés pour vous. » (2026-10-06)
 - [x] Domaine et hébergement (automate-studio.fr sur Vercel)
 - [x] public/keprea.png supprimé (inutilisé)
 
