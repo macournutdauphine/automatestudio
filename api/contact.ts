@@ -6,7 +6,8 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_KEY!
 );
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "mathieucournut798@gmail.com";
 const FROM_EMAIL = process.env.FROM_EMAIL ?? "onboarding@resend.dev";
@@ -41,6 +42,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ code: "VALIDATION_ERROR", error: "Tous les champs obligatoires doivent être remplis." });
   }
 
+  if (!resend) {
+    console.error("Missing RESEND_API_KEY");
+    return res.status(500).json({ code: "MISSING_RESEND_KEY", error: "Configuration email manquante." });
+  }
+
   const { error: dbError } = await supabase
     .from("contact_submissions")
     .insert([{ name, email, company, need: need || null, message }]);
@@ -50,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ code: "DB_ERROR", error: "Impossible d'enregistrer la demande." });
   }
 
-  const { error: emailError } = await resend.emails.send({
+  const { error: emailError, data: emailData } = await resend.emails.send({
     from: FROM_EMAIL,
     to: [NOTIFY_EMAIL],
     replyTo: email,
@@ -72,8 +78,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   if (emailError) {
-    console.error("Resend error:", emailError);
+    console.error("Resend error:", emailError, { from: FROM_EMAIL, to: NOTIFY_EMAIL });
+    return res.status(502).json({
+      code: "EMAIL_ERROR",
+      error: "La demande a bien été enregistrée, mais l'email n'a pas pu être envoyé.",
+    });
   }
 
-  return res.status(200).json({ success: true });
+  return res.status(200).json({ success: true, emailId: emailData?.id ?? null });
 }

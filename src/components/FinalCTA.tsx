@@ -73,6 +73,8 @@ export function FinalCTA() {
           const body = await response.json() as { code?: string };
           if (body.code === "VALIDATION_ERROR") message = "Certains champs sont invalides. Vérifiez que tous les champs sont bien remplis.";
           else if (body.code === "DB_ERROR") message = "Impossible d'enregistrer votre demande pour le moment. Réessayez dans quelques instants.";
+          else if (body.code === "EMAIL_ERROR") message = "La demande a été enregistrée, mais l'email n'a pas pu être envoyé. Vérifiez la configuration Resend.";
+          else if (body.code === "MISSING_RESEND_KEY") message = "La configuration email est incomplète sur le serveur.";
         } catch { /* réponse non-JSON, on garde le message par défaut */ }
         setErrors({ submit: message });
       }
@@ -271,7 +273,7 @@ export function FinalCTA() {
                   <div className="flex items-start gap-3">
                     <CheckCircleIcon className="mt-0.5 h-5 w-5 shrink-0" />
                     <p>
-                      Message prêt. Je reviens avec une première lecture du besoin et un format d'accompagnement clair.
+                      Demande envoyée avec succès!
                     </p>
                   </div>
                 </div>
