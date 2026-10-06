@@ -20,7 +20,6 @@ export default {
         accent: token("accent"),
         "accent-2": token("accent-2"),
         success: token("success"),
-        warning: token("warning"),
         danger: token("danger"),
         line: "var(--line)",
         "line-strong": "var(--line-strong)",

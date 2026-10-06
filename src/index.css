@@ -18,7 +18,6 @@
   --accent: 139 123 255; /* violet électrique */
   --accent-2: 76 215 246; /* cyan */
   --success: 62 224 161;
-  --warning: 245 196 81;
   --danger: 255 120 134;
 
   --line: rgba(255, 255, 255, 0.08);
@@ -198,14 +197,6 @@
     background-color: rgba(255, 255, 255, 0.05);
     box-shadow: 0 0 0 4px rgb(var(--accent) / 0.14);
   }
-  .field-select {
-    appearance: none;
-    padding-right: 2.5rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a7b8' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 1rem;
-  }
   .field[aria-invalid="true"] {
     border-color: rgb(var(--danger) / 0.7);
   }
@@ -219,10 +210,6 @@
   .mask-radial {
     -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
     mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
-  }
-  .mask-fade-x {
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
   }
 }
 
